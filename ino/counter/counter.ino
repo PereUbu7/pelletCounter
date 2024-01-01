@@ -24,7 +24,7 @@ void setup() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 
-  uint32_t timeout = millis() + 5000; 
+  uint32_t timeout = millis() + 10000; 
   while ((WiFi.status() != WL_CONNECTED) && (millis()<timeout)) { delay(5); }
 
   Serial.println("");
@@ -39,17 +39,15 @@ void setup() {
 
   // Use WiFiClient class to create TCP connections
   WiFiClient client;
-  while (!client.connect(host, port)) {
+
+  while (!client.connect(host, port) && (millis()<timeout)) {
     Serial.println("connection failed");
-    delay(5);
+    delay(50);
   }
 
   // This will send a string to the server
   Serial.println("sending data to server");
   if (client.connected()) { client.println("Hej från pannrummet!"); }
-
-  // wait for data to be available
-
 
   // Close the connection
   Serial.println();
