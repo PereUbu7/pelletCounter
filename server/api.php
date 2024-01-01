@@ -15,7 +15,7 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 	{
 		if( !empty($_GET["version"]))
 			{
-				echo json_encode($db->GetLogsForNode($_GET["node"], $_GET["from"]));
+				echo json_encode($db->InsertStepperStart($_GET["version"]));
 				$argumentFound = true;
 			}
 	}

@@ -6,7 +6,7 @@
 const char* ssid = STASSID;
 const char* password = STAPSK;
 
-const char* host = "http://10.42.0.1/pelletCounter?version=1.0";
+const char* host = "http://10.42.0.1/pelletCounter/server/api.php?version=1.0";
 const uint16_t port = 80;
 
 void setup() {
