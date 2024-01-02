@@ -52,7 +52,7 @@ class DatabaseConnection
 	{
 		$all = $this->GetAll();
 
-		$all = array_map(function ($a) { return date($bucket, strtotime($a['timestamp'])); }, $all);
+		$all = array_map(function ($a) use ($bucket) { return date($bucket, strtotime($a['timestamp'])); }, $all);
 
 		$arr = array();
 
