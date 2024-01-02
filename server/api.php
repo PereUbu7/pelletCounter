@@ -7,7 +7,7 @@ $settings = parse_ini_file("appsettings.ini", true);
 $db = new DatabaseConnection;
 $db->Connect($settings["database"]["path"]);
 
-$argumentFound = false;
+header('Content-Type: application/json; charset=utf-8');
 
 if( $_SERVER["REQUEST_METHOD"] == "GET" )
 {
