@@ -13,16 +13,11 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 {
 	if( !empty($_GET["version"]))
 	{
-		if( !empty($_GET["version"]))
-			{
-				echo json_encode($db->InsertStepperStart($_GET["version"]));
-				$argumentFound = true;
-			}
+		echo json_encode($db->InsertStepperStart($_GET["version"]));
 	}
-}
-
-if(!$argumentFound)
-{
-	echo "<h1>Error</h1>";
+	else if( !empyt($_GET["all"]))
+	{
+		echo json_encode($db->GetAll());
+	}
 }
 ?>

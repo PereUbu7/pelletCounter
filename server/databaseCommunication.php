@@ -27,12 +27,22 @@ class DatabaseConnection
 	function InsertStepperStart($version)
 	{
 		$stmt = $this->dbConnection->prepare( "INSERT INTO stepperStart
-        (timestamp, version) VALUES (?, ?)");
+        (timestamp, version) VALUES (?, ?);");
 
         $timestamp = date("Y-m-d H:i:s");
 		
 		$params = [$timestamp, $version];
 		$stmt->execute($params);
+
+		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+	function GetAll()
+	{
+		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStart;");
+
+		$stmt->execute();
 
 		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $res;
