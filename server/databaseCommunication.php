@@ -47,5 +47,23 @@ class DatabaseConnection
 		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $res;
 	}
+
+	function GetHistogram($bucket)
+	{
+		$all = GetAll();
+
+		$all = array_map(function ($a) { return date($bucket, strtotime($a['timestamp'])); }, $all);
+
+		$arr = array();
+
+		$reduced = array_reduce($all, function ($carry, $item) 
+		{
+			$carry[$item] = !isset($carry[$item]) ? 1 : $carry[$item] + 1;
+			return $carry;
+		},
+		array());
+
+		return $reduced;
+	}
 }
 ?>
