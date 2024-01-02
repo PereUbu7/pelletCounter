@@ -50,7 +50,7 @@ class DatabaseConnection
 
 	function GetHistogram($bucket)
 	{
-		$all = GetAll();
+		$all = $this->GetAll();
 
 		$all = array_map(function ($a) { return date($bucket, strtotime($a['timestamp'])); }, $all);
 
