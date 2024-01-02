@@ -15,7 +15,7 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 	{
 		echo json_encode($db->InsertStepperStart($_GET["version"]));
 	}
-	else if( !empyt($_GET["all"]))
+	else if( !empty($_GET["all"]))
 	{
 		echo json_encode($db->GetAll());
 	}
