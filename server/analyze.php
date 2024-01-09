@@ -9,7 +9,7 @@
     $manualRepo = new manualRepository($config['database']['manualPelletPath']);
 
     $autoValues = $autoRepo->getValues();
-    $manualValues = $manualRepo->getValues();
+    $manualValues = $manualRepo->getValues($autoValues);
 ?>
 
 <!DOCTYPE html>

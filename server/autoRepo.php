@@ -14,7 +14,7 @@ class autoRepository
 
     function getValues()
     {
-        return $this->getHistogram('Y-m-d H:i');
+        return $this->_connection->getHistogram('Y-m-d H:i');
     }
 
     

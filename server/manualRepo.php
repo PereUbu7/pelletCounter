@@ -12,9 +12,13 @@
             $this->_connection->connect($path);
         }
 
-        function getValues()
+        function getValues($autoValues)
         {
-            return $this->_connection->GetValuesByKey('pellets');
+            $times = array_keys($autoValues);
+
+            $start = min($times);
+            $end = max($times);
+            return $this->_connection->GetValuesByKeyAndRange('pellets', $start, $end);
         }
     }
 ?>
