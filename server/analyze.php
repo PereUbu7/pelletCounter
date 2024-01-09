@@ -14,7 +14,7 @@
     echo json_encode($manualValues);
 
     $groundTruth = array();
-    for ($i = 0; $i < count($manualValues); ++$i) 
+    for ($i = 0; $i < count($manualValues) - 1; ++$i) 
     {
         $currentDate = strtotime(json_decode($manualValues[$i]['value'])->date);
         $nextDate = strtotime(json_decode($manualValues[$i + 1]['value'])->date);
@@ -24,13 +24,13 @@
 
         $groundTruth[$i]['kgsPerDay'] = 16 * $numberOfBags / $numberOfDays;
 
-        $numberOfPulses = array_reduce($autoValues, function ($carry, $v) use ($currentDate, $nextDate)
+        $numberOfPulses = array_reduce(array_keys($autoValues), function ($carry, $k) use ($autoValues, $currentDate, $nextDate)
         {
-            $pulseDate = strtotime($v['timestamp']);
+            $pulseDate = strtotime($k);
             if($pulseDate >= $currentDate &&
                 $pulseDate < $nextDate)    
             {
-                return ++$carry;
+                return $carry += $autoValues[$k];
             }
             return $carry;
         },
