@@ -22,7 +22,8 @@
 
         $numberOfBags = json_decode($manualValues[$i + 1]['value'])->antalSäckar;
 
-        $groundTruth[$i]['kgsPerDay'] = 16 * $numberOfBags / $numberOfDays;
+        # Kgs/day
+        $groundTruth[$i]['y'] = 16 * $numberOfBags / $numberOfDays;
 
         $numberOfPulses = array_reduce(array_keys($autoValues), function ($carry, $k) use ($autoValues, $currentDate, $nextDate)
         {
@@ -36,7 +37,8 @@
         },
         0);
 
-        $groundTruth[$i]['numberOfPulses'] = $numberOfPulses;
+        # #pulses
+        $groundTruth[$i]['x'] = $numberOfPulses;
     }
 ?>
 
@@ -75,22 +77,21 @@
         	animationEnabled: true,
 	        zoomEnabled: true,
         	title:{
-        		text: "Requests per hour"
+        		text: "Correlation between pulses and massflow"
         	},
         	axisY: {
-        		title: "Number of requests"
+        		title: "kg/day"
         	},
             axisX:{      
-            valueFormatString: "D/M HH:mm:ss",
-            labelAngle: -50
+                title: "# pulses"
         },
         	data: [{
+                type: "scatter",
+		        markerType: "square",
                 showInLegend: true, 
                 name: "requests",
                 legendText: "Normal",
-        		type: "spline",
         		markerSize: 5,
-        		xValueType: "dateTime",
         		dataPoints: <?php echo json_encode($groundTruth, JSON_NUMERIC_CHECK); ?>
         	}]
         });
