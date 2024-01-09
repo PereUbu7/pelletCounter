@@ -8,12 +8,11 @@
     $autoRepo = new autoRepository($config['database']['path']);
     $manualRepo = new manualRepository($config['database']['manualPelletPath']);
 
-    $autoValues = $autoRepo->getValues();
+    $autoValues = $autoRepo->getValues('Y-m-d H:i');
     $manualValues = $manualRepo->getValues($autoValues);
 
-    echo json_encode($manualValues);
-
-    $groundTruth = array();
+    # Map number of pulses to manual records
+    $groundTruth = [];
     for ($i = 0; $i < count($manualValues) - 1; ++$i) 
     {
         $currentDate = strtotime(json_decode($manualValues[$i]['value'])->date);
@@ -25,6 +24,7 @@
         # Kgs/day
         $groundTruth[$i]['y'] = 16 * $numberOfBags / $numberOfDays;
 
+        # Accumulate pulses given date interval of manual records
         $numberOfPulses = array_reduce(array_keys($autoValues), function ($carry, $k) use ($autoValues, $currentDate, $nextDate)
         {
             $pulseDate = strtotime($k);
@@ -51,29 +51,15 @@
 
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
       </head>
-    
-    <?php
-// "http://" + window.location.hostname + "/logAnything/api.php"; + "?key=pellets"
-    ?>
 
     <body>
-        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-        <p>
-        <?php
-            echo json_encode($autoValues);
-        ?>
-        </p>
-        </br>
-        <p>
-        <?php
-            echo json_encode($groundTruth);
-        ?>
-        </p>
+        <div id="chartContainerCorr" style="height: 370px; width: 100%;"></div>
+        <div id="chartContainerTimeSeries" style="height: 370px; width: 100%;"></div>
 
         <script>
         window.onload = function () {
         
-        var chart = new CanvasJS.Chart("chartContainer", {
+        var chartCorr = new CanvasJS.Chart("chartContainerCorr", {
         	animationEnabled: true,
 	        zoomEnabled: true,
         	title:{
@@ -84,7 +70,7 @@
         	},
             axisX:{      
                 title: "# pulses"
-        },
+            },
         	data: [{
                 type: "scatter",
 		        markerType: "square",
@@ -96,7 +82,31 @@
         	}]
         });
 
-        chart.render();
+        chartCorr.render();
+
+        var chartTime = new CanvasJS.Chart("chartContainerTimeSeries", {
+        	animationEnabled: true,
+	        zoomEnabled: true,
+        	title:{
+        		text: "Pulses per day"
+        	},
+        	axisY: {
+        		title: "kg/day"
+        	},
+        	data: [{
+                type: "line",
+        		dataPoints: 
+                <?php
+                $perDayPulses = $autoRepo->getValues('Y-m-d');
+                echo json_encode(array_map(function ($k) use ($perDayPulses)
+                {
+                    return array("y" => $perDayPulses[$k], "label" => $k);
+                }, array_keys($perDayPulses)), JSON_NUMERIC_CHECK); 
+                ?>
+        	}]
+        });
+
+        chartTime.render();
 
         }
     </script>

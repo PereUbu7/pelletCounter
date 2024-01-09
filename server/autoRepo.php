@@ -12,9 +12,9 @@ class autoRepository
         $this->_connection->Connect($path);
     }
 
-    function getValues()
+    function getValues($bucket)
     {
-        return $this->_connection->getHistogram('Y-m-d H:i');
+        return $this->_connection->getHistogram($bucket);
     }
 
     
