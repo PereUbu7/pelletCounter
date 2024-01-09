@@ -46,6 +46,8 @@
         <title>Analyze</title>
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
       </head>
     
     <?php
@@ -53,6 +55,7 @@
     ?>
 
     <body>
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         <p>
         <?php
             echo json_encode($autoValues);
@@ -64,6 +67,38 @@
             echo json_encode($groundTruth);
         ?>
         </p>
+
+        <script>
+        window.onload = function () {
+        
+        var chart = new CanvasJS.Chart("chartContainer", {
+        	animationEnabled: true,
+	        zoomEnabled: true,
+        	title:{
+        		text: "Requests per hour"
+        	},
+        	axisY: {
+        		title: "Number of requests"
+        	},
+            axisX:{      
+            valueFormatString: "D/M HH:mm:ss",
+            labelAngle: -50
+        },
+        	data: [{
+                showInLegend: true, 
+                name: "requests",
+                legendText: "Normal",
+        		type: "spline",
+        		markerSize: 5,
+        		xValueType: "dateTime",
+        		dataPoints: <?php echo json_encode($groundTruth, JSON_NUMERIC_CHECK); ?>
+        	}]
+        });
+
+        chart.render();
+
+        }
+    </script>
     </body>
 
 </html>
