@@ -5,8 +5,8 @@
 
     $config = parse_ini_file('appsettings.ini', true);
 
-    $autoRepo = new autoRepository;
-    $manualRepo = new manualRepository;
+    $autoRepo = new autoRepository($config['databases']['path']);
+    $manualRepo = new manualRepository($config['databases']['manualPelletPath']);
 
     $manualValues = $manualRepo->getValues();
 ?>

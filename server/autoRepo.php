@@ -1,19 +1,15 @@
 <?php
-require_once('databaseCommuniction.php');
-
-$config = parse_ini_file('appsettings.ini', true);
+require_once('dbCommunication.php');
 
 class autoRepository
 {
     private $_connection;
 
-    function __construct()
+    function __construct($path)
     {
         $_connection = new DbConnection;
 
-        $filename = $config['databases']['path'];
-
-        $this->_connection->Connect($filename);
+        $this->_connection->Connect($path);
     }
 
     

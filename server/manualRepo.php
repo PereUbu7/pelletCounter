@@ -1,19 +1,15 @@
 <?php
-    require_once('../logAnything/databaseCommunication.php');
-
-    $config = parse_ini_file('appsettings.ini', true);
+    require_once('../../FuelLogger/databaseCommunication.php');
 
     class manualRepository
     {
         private $_connection;
 
-        function __construct()
+        function __construct($path)
         {
             $this->_connection = new DatabaseConnection;
 
-            $filename = $config['databases']['manualPelletPath'];
-
-            $this->_connection->connect($filename);
+            $this->_connection->connect($path);
         }
 
         function getValues()
