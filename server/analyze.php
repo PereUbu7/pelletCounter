@@ -91,7 +91,7 @@
         		text: "Pulses per day"
         	},
         	axisY: {
-        		title: "kg/day"
+        		title: "#/day"
         	},
         	data: [{
                 type: "line",
