@@ -5,9 +5,10 @@
 
     $config = parse_ini_file('appsettings.ini', true);
 
-    $autoRepo = new autoRepository($config['databases']['path']);
-    $manualRepo = new manualRepository($config['databases']['manualPelletPath']);
+    $autoRepo = new autoRepository($config['database']['path']);
+    $manualRepo = new manualRepository($config['database']['manualPelletPath']);
 
+    $autoValues = $autoRepo->getValues();
     $manualValues = $manualRepo->getValues();
 ?>
 
@@ -25,7 +26,7 @@
 
     <body>
         <?php
-            echo json_encode($manualValues);
+            echo json_encode($autoValues);
         ?>
     </body>
 

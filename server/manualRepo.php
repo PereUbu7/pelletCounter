@@ -14,7 +14,7 @@
 
         function getValues()
         {
-            return $this->_connection->GetValuesByKey('pellet');
+            return $this->_connection->GetValuesByKey('pellets');
         }
     }
 ?>

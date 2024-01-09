@@ -7,9 +7,14 @@ class autoRepository
 
     function __construct($path)
     {
-        $_connection = new DbConnection;
+        $this->_connection = new DbConnection;
 
         $this->_connection->Connect($path);
+    }
+
+    function getValues()
+    {
+        return $this->getHistogram('Y-m-d H:i');
     }
 
     
