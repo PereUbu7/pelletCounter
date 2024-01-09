@@ -1,10 +1,10 @@
 <?php
 ini_set('display_errors', 1);
-require 'databaseCommunication.php';
+require 'dbCommunication.php';
 
 $settings = parse_ini_file("appsettings.ini", true);
 
-$db = new DatabaseConnection;
+$db = new DbConnection;
 $db->Connect($settings["database"]["path"]);
 
 header('Content-Type: application/json; charset=utf-8');
