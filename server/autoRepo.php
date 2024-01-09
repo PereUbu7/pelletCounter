@@ -14,7 +14,12 @@ class autoRepository
 
     function getValues($bucket)
     {
-        return $this->_connection->getHistogram($bucket);
+        $histogram = $this->_connection->getHistogram($bucket);
+        
+        # Sort by keys (buckets)
+        ksort($histogram);
+
+        return $histogram;
     }
 
     
