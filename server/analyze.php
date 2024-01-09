@@ -14,7 +14,7 @@
     $groundTruth = array();
     for ($i = 0; $i < count($manualValues); ++$i) 
     {
-        $currentDate = strtotime(json_decode($manualValues[$i]['value']))['date'];
+        $currentDate = strtotime(json_decode($manualValues[$i]['value'])['date']);
         $nextDate = strtotime(json_decode($manualValues[$i + 1]['value'])['date']);
         $numberOfDays = ($nextDate - $currentDate) / (60 * 60 * 24);
 
