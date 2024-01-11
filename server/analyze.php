@@ -75,7 +75,7 @@
         		text: "Correlation between pulses and massflow"
         	},
         	axisY: {
-        		title: "kg/bucket"
+        		title: "kg/day"
         	},
             axisX:{      
                 title: "# pulses"
