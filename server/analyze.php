@@ -5,10 +5,19 @@
 
     $config = parse_ini_file('appsettings.ini', true);
 
+    $bucket = 'Y-m-d';
+    if( $_SERVER["REQUEST_METHOD"] == "GET" )
+    {
+	    if( !empty($_GET["bucket"]))
+        {
+            $bucket = $_GET["bucket"];
+        }
+    }
+
     $autoRepo = new autoRepository($config['database']['path']);
     $manualRepo = new manualRepository($config['database']['manualPelletPath']);
 
-    $autoValues = $autoRepo->getValues('Y-m-d H:i');
+    $autoValues = $autoRepo->getValues($bucket);
     $manualValues = $manualRepo->getValues($autoValues);
 
     # Map number of pulses to manual records
@@ -66,7 +75,7 @@
         		text: "Correlation between pulses and massflow"
         	},
         	axisY: {
-        		title: "kg/day"
+        		title: "kg/bucket"
         	},
             axisX:{      
                 title: "# pulses"
@@ -88,16 +97,16 @@
         	animationEnabled: true,
 	        zoomEnabled: true,
         	title:{
-        		text: "Pulses per day"
+        		text: "Pulses per bucket"
         	},
         	axisY: {
-        		title: "#/day"
+        		title: "#/bucket"
         	},
         	data: [{
                 type: "line",
         		dataPoints: 
                 <?php
-                $perDayPulses = $autoRepo->getValues('Y-m-d');
+                $perDayPulses = $autoRepo->getValues($bucket);
                 echo json_encode(array_map(function ($k) use ($perDayPulses)
                 {
                     return array("y" => $perDayPulses[$k], "label" => $k);
