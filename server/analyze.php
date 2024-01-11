@@ -28,6 +28,11 @@
     $autoValues = $autoRepo->getValues($bucket);
     $manualValues = $manualRepo->getValues($autoValues);
 
+    if($debug)
+    {
+        echo "Auto values: " . json_decode($autoValues) . "<br>";
+    }
+
     # Map number of pulses to manual records
     $groundTruth = [];
     for ($i = 0; $i < count($manualValues) - 1; ++$i) 
