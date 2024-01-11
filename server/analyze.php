@@ -30,7 +30,7 @@
 
     if($debug)
     {
-        echo "Auto values: " . json_decode($autoValues) . "<br>";
+        echo "Auto values: " . json_encode($autoValues) . "<br>";
     }
 
     # Map number of pulses to manual records
