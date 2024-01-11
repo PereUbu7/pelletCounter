@@ -60,12 +60,12 @@
         if($debug)
         {
             echo "Checking manual:\n";
-            echo "Current timestamp: " + $currentDate + "\n";
-            echo "Next timestamp: " + $nextDate + "\n";
-            echo "Number of days: " + $numberOfDays + "\n";
-            echo "Number of bags: " + $numberOfBags + "\n";
-            echo "Kgs/day: " + $groundTruth[$i]['y'] + "\n";
-            echo "Number of pulses: " + $numberOfPulses + "\n\n";
+            echo "Current timestamp: " . $currentDate . "\n";
+            echo "Next timestamp: " . $nextDate . "\n";
+            echo "Number of days: " . $numberOfDays . "\n";
+            echo "Number of bags: " . $numberOfBags . "\n";
+            echo "Kgs/day: " . $groundTruth[$i]['y'] . "\n";
+            echo "Number of pulses: " . $numberOfPulses . "\n\n";
         }
     }
 ?>
