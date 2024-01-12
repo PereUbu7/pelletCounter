@@ -55,13 +55,11 @@
         $count = ++$count % $merge;
     }
 
-    $autoValues = $autoValuesMerged;
-
-    $manualValues = $manualRepo->getValues($autoValues);
+    $manualValues = $manualRepo->getValues($autoValuesMerged);
 
     if($debug)
     {
-        echo "Auto values: " . json_encode($autoValues) . "<br>";
+        echo "Auto values: " . json_encode($autoValuesMerged) . "<br>";
     }
 
     # Map number of pulses to manual records
@@ -77,13 +75,13 @@
         $groundTruth[$i]['y'] = 16 * $numberOfBags;
 
         # Accumulate pulses given date interval of manual records
-        $numberOfPulses = array_reduce(array_keys($autoValues), function ($carry, $k) use ($autoValues, $currentDate, $nextDate)
+        $numberOfPulses = array_reduce(array_keys($autoValuesMerged), function ($carry, $k) use ($autoValuesMerged, $currentDate, $nextDate)
         {
             $pulseDate = strtotime($k);
             if($pulseDate >= $currentDate &&
                 $pulseDate < $nextDate)    
             {
-                return $carry += $autoValues[$k];
+                return $carry += $autoValuesMerged[$k];
             }
             return $carry;
         },
