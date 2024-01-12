@@ -32,34 +32,11 @@
 
     $autoValues = $autoRepo->getValues($bucket);
 
-    $count = 0;
-    $autoValuesMerged = array();
-    $currentBucket = 0;
-    foreach ($autoValues as $key => $value)
-    {
-        if($debug)
-        {
-            echo "Count: " . $count . "<br>";
-            echo "Merge: " . $merge . "<br>";
-        }
-        
-        $currentBucket = $count == 0 ? $key : $currentBucket;
-
-        $autoValuesMerged[$currentBucket] = !isset($autoValuesMerged[$currentBucket]) ? $value : $autoValuesMerged[$currentBucket] + $value;
-
-        if($debug)
-        {
-            echo "current bucket: " . $currentBucket . " with value: " . $autoValuesMerged[$currentBucket] . "<br>";
-        }
-
-        $count = ++$count % $merge;
-    }
-
-    $manualValues = $manualRepo->getValues($autoValuesMerged);
+    $manualValues = $manualRepo->getValues($autoValues);
 
     if($debug)
     {
-        echo "Auto values: " . json_encode($autoValuesMerged) . "<br>";
+        echo "Auto values: " . json_encode($autoValues) . "<br>";
     }
 
     # Map number of pulses to manual records
@@ -75,13 +52,13 @@
         $groundTruth[$i]['y'] = 16 * $numberOfBags;
 
         # Accumulate pulses given date interval of manual records
-        $numberOfPulses = array_reduce(array_keys($autoValuesMerged), function ($carry, $k) use ($autoValuesMerged, $currentDate, $nextDate)
+        $numberOfPulses = array_reduce(array_keys($autoValues), function ($carry, $k) use ($autoValues, $currentDate, $nextDate)
         {
             $pulseDate = strtotime($k);
             if($pulseDate >= $currentDate &&
                 $pulseDate < $nextDate)    
             {
-                return $carry += $autoValuesMerged[$k];
+                return $carry += $autoValues[$k];
             }
             return $carry;
         },
@@ -158,10 +135,32 @@
         		dataPoints: 
                 <?php
                 $perDayPulses = $autoRepo->getValues($bucket);
-                echo json_encode(array_map(function ($k) use ($perDayPulses)
+                $count = 0;
+                $autoValuesMerged = array();
+                $currentBucket = 0;
+                foreach ($autoValues as $key => $value)
                 {
-                    return array("y" => $perDayPulses[$k], "label" => $k);
-                }, array_keys($perDayPulses)), JSON_NUMERIC_CHECK); 
+                    if($debug)
+                    {
+                        echo "Count: " . $count . "<br>";
+                        echo "Merge: " . $merge . "<br>";
+                    }
+
+                    $currentBucket = $count == 0 ? $key : $currentBucket;
+                
+                    $autoValuesMerged[$currentBucket] = !isset($autoValuesMerged[$currentBucket]) ? $value : $autoValuesMerged[$currentBucket] + $value;
+                
+                    if($debug)
+                    {
+                        echo "current bucket: " . $currentBucket . " with value: " . $autoValuesMerged[$currentBucket] . "<br>";
+                    }
+                
+                    $count = ++$count % $merge;
+                }
+                echo json_encode(array_map(function ($k) use ($autoValuesMerged)
+                {
+                    return array("y" => $autoValuesMerged[$k], "label" => $k);
+                }, array_keys($autoValuesMerged)), JSON_NUMERIC_CHECK); 
                 ?>
         	}]
         });
