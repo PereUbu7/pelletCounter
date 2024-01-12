@@ -7,11 +7,16 @@
 
     $bucket = 'Y-m-d';
     $debug = false;
+    $merge = 1;
     if( $_SERVER["REQUEST_METHOD"] == "GET" )
     {
 	    if( !empty($_GET["bucket"]))
         {
             $bucket = $_GET["bucket"];
+        }
+        if( !empty($_GET['merge']))
+        {
+            $merge = $_GET['merge'];
         }
         if( !empty($_GET['debug']))
         {
@@ -26,6 +31,21 @@
     $manualRepo = new manualRepository($config['database']['manualPelletPath']);
 
     $autoValues = $autoRepo->getValues($bucket);
+
+    $count = 0;
+    $autoValuesMerged = array();
+    $currentBucket = 0;
+    foreach ($autoValues as $key => $value)
+    {
+        $currentBucket = $count == 0 ? $key : $currentBucket;
+
+        $autoValuesMerged[$currentBucket] = !isset($autoValuesMerged[$currentBucket]) ? $value : $autoValuesMerged[$currentBucket] + $value;
+
+        $count = ++$count % $merge;
+    }
+
+    $autoValues = $autoValuesMerged;
+
     $manualValues = $manualRepo->getValues($autoValues);
 
     if($debug)
@@ -39,12 +59,11 @@
     {
         $currentDate = strtotime(json_decode($manualValues[$i]['value'])->date);
         $nextDate = strtotime(json_decode($manualValues[$i + 1]['value'])->date);
-        $numberOfDays = ($nextDate - $currentDate) / (60 * 60 * 24);
 
         $numberOfBags = json_decode($manualValues[$i + 1]['value'])->antalSäckar;
 
-        # Kgs/day
-        $groundTruth[$i]['y'] = 16 * $numberOfBags / $numberOfDays;
+        # Kgs
+        $groundTruth[$i]['y'] = 16 * $numberOfBags;
 
         # Accumulate pulses given date interval of manual records
         $numberOfPulses = array_reduce(array_keys($autoValues), function ($carry, $k) use ($autoValues, $currentDate, $nextDate)
@@ -67,9 +86,8 @@
             echo "Checking manual:<br>";
             echo "Current timestamp: " . $currentDate . "<br>";
             echo "Next timestamp: " . $nextDate . "<br>";
-            echo "Number of days: " . $numberOfDays . "<br>";
             echo "Number of bags: " . $numberOfBags . "<br>";
-            echo "Kgs/day: " . $groundTruth[$i]['y'] . "<br>";
+            echo "Kgs: " . $groundTruth[$i]['y'] . "<br>";
             echo "Number of pulses: " . $numberOfPulses . "<br><br>";
         }
     }
@@ -96,10 +114,10 @@
         	animationEnabled: true,
 	        zoomEnabled: true,
         	title:{
-        		text: "Correlation between pulses and massflow"
+        		text: "Correlation between pulses and mass"
         	},
         	axisY: {
-        		title: "kg/day"
+        		title: "kgs"
         	},
             axisX:{      
                 title: "# pulses"
