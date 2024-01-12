@@ -37,6 +37,12 @@
     $currentBucket = 0;
     foreach ($autoValues as $key => $value)
     {
+        if($debug)
+        {
+            echo "Count: " . $count . "<br>";
+            echo "Merge: " . $merge . "<br>";
+        }
+        
         $currentBucket = $count == 0 ? $key : $currentBucket;
 
         $autoValuesMerged[$currentBucket] = !isset($autoValuesMerged[$currentBucket]) ? $value : $autoValuesMerged[$currentBucket] + $value;
