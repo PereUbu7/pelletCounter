@@ -47,6 +47,11 @@
 
         $autoValuesMerged[$currentBucket] = !isset($autoValuesMerged[$currentBucket]) ? $value : $autoValuesMerged[$currentBucket] + $value;
 
+        if($debug)
+        {
+            echo "current bucket: " . $currentBucket . " with value: " . $autoValuesMerged[$currentBucket] . "<br>";
+        }
+
         $count = ++$count % $merge;
     }
 
