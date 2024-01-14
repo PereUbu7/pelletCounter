@@ -30,7 +30,7 @@
     $autoRepo = new autoRepository($config['database']['path']);
     $manualRepo = new manualRepository($config['database']['manualPelletPath']);
 
-    $autoValues = $autoRepo->getValues($bucket);
+    $autoValues = $autoRepo->getValues('Y-m-d');
 
     $manualValues = $manualRepo->getValues($autoValues);
 
@@ -138,7 +138,7 @@
                 $count = 0;
                 $autoValuesMerged = array();
                 $currentBucket = 0;
-                foreach ($autoValues as $key => $value)
+                foreach ($perDayPulses as $key => $value)
                 {
                     $currentBucket = $count == 0 ? $key : $currentBucket;
                     $autoValuesMerged[$currentBucket] = !isset($autoValuesMerged[$currentBucket]) ? $value : $autoValuesMerged[$currentBucket] + $value;
