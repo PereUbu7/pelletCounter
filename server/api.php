@@ -23,5 +23,9 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 	{
 		echo json_encode($db->GetHistogram($_GET["histogram"]));
 	}
+	else if( !empty($_GET["latest"]))
+	{
+		echo json_encode($db->GetLatest());
+	}
 }
 ?>

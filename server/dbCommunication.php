@@ -65,5 +65,15 @@ class DbConnection
 
 		return $reduced;
 	}
+
+	function GetLatest()
+	{
+		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStart ORDER BY timestamp DESC LIMIT 1;");
+
+		$stmt->execute();
+
+		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $res;
+	}
 }
 ?>
