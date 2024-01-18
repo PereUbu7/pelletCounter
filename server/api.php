@@ -17,7 +17,9 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 	}
 	else if( !empty($_GET["all"]))
 	{
-		echo json_encode($db->GetAll($_GET["from"], $_GET["to"]));
+		$from = isset($_GET["from"]) ? $_GET["from"] : null;
+		$to = isset($_GET["to"]) ? $_GET["to"] : null;
+		echo json_encode($db->GetAll($from, $to));
 	}
 	else if( !empty($_GET["histogram"]))
 	{

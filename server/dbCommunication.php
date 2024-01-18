@@ -42,7 +42,7 @@ class DbConnection
 	{
 		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStart WHERE (? OR timestamp > ?) AND (? OR timestamp < ?);");
 
-		$params = [!isset($from), $from, !isset($to), $to];
+		$params = [!isnull($from), $from, !isnull($to), $to];
 		$stmt->execute($params);
 
 		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
