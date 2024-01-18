@@ -49,9 +49,9 @@ class DbConnection
 		return $res;
 	}
 
-	function GetHistogram($bucket)
+	function GetHistogram($bucket, $from, $to)
 	{
-		$all = $this->GetAll();
+		$all = $this->GetAll($from, $to);
 
 		$all = array_map(function ($a) use ($bucket) { return date($bucket, strtotime($a['timestamp'])); }, $all);
 

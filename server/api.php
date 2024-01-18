@@ -11,19 +11,20 @@ header('Content-Type: application/json; charset=utf-8');
 
 if( $_SERVER["REQUEST_METHOD"] == "GET" )
 {
+	$from = isset($_GET["from"]) ? $_GET["from"] : null;
+	$to = isset($_GET["to"]) ? $_GET["to"] : null;
+
 	if( !empty($_GET["version"]))
 	{
 		echo json_encode($db->InsertStepperStart($_GET["version"]));
 	}
 	else if( !empty($_GET["all"]))
 	{
-		$from = isset($_GET["from"]) ? $_GET["from"] : null;
-		$to = isset($_GET["to"]) ? $_GET["to"] : null;
 		echo json_encode($db->GetAll($from, $to));
 	}
 	else if( !empty($_GET["histogram"]))
 	{
-		echo json_encode($db->GetHistogram($_GET["histogram"]));
+		echo json_encode($db->GetHistogram($_GET["histogram"], $from, $to));
 	}
 	else if( !empty($_GET["latest"]))
 	{
