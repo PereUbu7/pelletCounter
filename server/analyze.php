@@ -8,8 +8,14 @@
     $bucket = 'Y-m-d';
     $debug = false;
     $merge = 1;
+    $from = null;
+    $to = null;
+
     if( $_SERVER["REQUEST_METHOD"] == "GET" )
     {
+        $from = isset($_GET["from"]) ? $_GET["from"] : null;
+        $to = isset($_GET["to"]) ? $_GET["to"] : null;
+
 	    if( !empty($_GET["bucket"]))
         {
             $bucket = $_GET["bucket"];
@@ -134,7 +140,7 @@
                 type: "line",
         		dataPoints: 
                 <?php
-                $perDayPulses = $autoRepo->getValues($bucket);
+                $perDayPulses = $autoRepo->getValues($bucket, $from, $to);
                 $count = 0;
                 $autoValuesMerged = array();
                 $currentBucket = 0;
