@@ -38,11 +38,12 @@ class DbConnection
 		return $res;
 	}
 
-	function GetAll()
+	function GetAll($from, $to)
 	{
-		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStart;");
+		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStart WHERE (? OR timestamp > ?) AND (? OR timestamp < ?);");
 
-		$stmt->execute();
+		$params = [!isset($from), $from, !isset($to), $to];
+		$stmt->execute($params);
 
 		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $res;
