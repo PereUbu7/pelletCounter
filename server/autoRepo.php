@@ -12,9 +12,9 @@ class autoRepository
         $this->_connection->Connect($path);
     }
 
-    function getValues($bucket)
+    function getValues($bucket, $from = null, $to = null)
     {
-        $histogram = $this->_connection->getHistogram($bucket);
+        $histogram = $this->_connection->getHistogram($bucket, $from, $to);
         
         # Sort by keys (buckets)
         ksort($histogram);
