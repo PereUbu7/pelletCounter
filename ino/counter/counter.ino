@@ -1,73 +1,82 @@
 #include "secrets.h"
 
 #include <ESP8266WiFi.h>
+#include <WiFiClient.h>
 
 void setup()
 {
   const char *ssid = STASSID;
   const char *password = STAPSK;
 
+  IPAddress ip(10, 42, 0, 1);
+  IPAddress dns(0, 0, 0, 0);
+  IPAddress gateway(255, 255, 255, 0);
+
   const char *host = "10.42.0.1";
   const uint16_t port = 80;
-  // Serial.begin(115200);
-
-  // We start by connecting to a WiFi network
-
-  // Serial.println();
-  // Serial.println();
-  // Serial.print("Connecting to ");
-  // Serial.println(ssid);
+  const uint8_t channel = 11;
+  uint8_t bssid[6] = {0, 26, 115, 173, 217, 195};
 
   uint32_t startupAt = millis();
 
-  WiFi.setAutoConnect(false);
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
+  WiFi.setAutoConnect(false);
 
-  uint32_t timeout = millis() + 10000;
+  uint32_t timeout = millis() + 30000;
   while ((WiFi.status() != WL_CONNECTED) && (millis() < timeout))
   {
     delay(50);
   }
 
-  uint32_t connectedAt = millis();
+    Serial.begin(115200);
 
-  // Serial.println("");
-  // Serial.println("WiFi connected");
-  // Serial.println("IP address: ");
-  // Serial.println(WiFi.localIP());
-
-  // Serial.print("connecting to ");
-  // Serial.print(host);
-  // Serial.print(':');
-  // Serial.println(port);
-
-  // Use WiFiClient class to create TCP connections
-  WiFiClient client;
-
-  while (!client.connect(host, port) && (millis() < timeout))
+  if(millis() > timeout)
   {
-    // Serial.println("connection failed");
-    delay(50);
+    Serial.println("Timed out");
+    return;
   }
 
-  // Serial.println("sending data to server");
+  uint32_t connectedAt = millis();
+
+  WiFiClient client;
+
+  if (!client.connect(host, port))
+  {
+    Serial.println("connection failed");
+    return;
+  }
+
   if (client.connected())
   {
-    client.print(String("GET /pelletCounter/server/api.php?version=1.0") + " HTTP/1.1\r\n" +
-                 "Host: " + host + "\r\n" +
-                 "Connection: close\r\n\r\n");
+    client.println("GET /pelletCounter/server/api.php?version=1.1");
   }
 
   client.stop();
 
   uint32_t doneAt = millis();
 
-  Serial.begin(115200);
+
   Serial.print("Connection time: ");
   Serial.println(connectedAt - startupAt);
   Serial.print("Total time: ");
   Serial.println(doneAt - startupAt);
+
+  Serial.print("At channel: ");
+  Serial.print(WiFi.channel());
+  Serial.print(" and bssid: ");
+  memcpy( bssid, WiFi.BSSID(), 6 );
+  Serial.print(bssid[0]);
+  Serial.print(' ');
+  Serial.print(bssid[1]);
+  Serial.print(' ');
+  Serial.print(bssid[2]);
+  Serial.print(' ');
+  Serial.print(bssid[3]);
+  Serial.print(' ');
+  Serial.print(bssid[4]);
+  Serial.print(' ');
+  Serial.println(bssid[5]);
 }
 
 void loop() {}
