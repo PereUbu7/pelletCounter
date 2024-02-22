@@ -47,3 +47,5 @@ struct FakeWiFiClientRequestReceiver
 };
 
 extern FakeWiFiClientRequestReceiver fakeReqeuestReceiver;
+
+char * dtostrf(double number, signed char width, unsigned char prec, char *s);

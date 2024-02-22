@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 
+#include <iostream>
 #include <cstdint>
 #include <string.h>
 
@@ -15,6 +16,7 @@ public:
     void print(const char* text) { internPrintln(text, false); }
     void println(const char* text) { internPrintln(text, true); }
     void println(unsigned long value) {}
+    void println(float value) {}
     void stop() { isConnected = false; }
 private:
     bool isConnected{false};
@@ -24,6 +26,9 @@ private:
 
     void internPrintln(const char* text, bool hasNewline)
     {
+        std::cout << text;
+        if(hasNewline) std::cout << '\n';
+
         if(isConnected)
         {
             if(strstr(text, "pellet")) 
