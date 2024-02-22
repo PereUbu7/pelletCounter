@@ -69,7 +69,7 @@ public:
         }
       }
       _clientNumberOfTries = 0;
-      _state = State::Host;
+      _state = State::Init;
 
       break;
 
