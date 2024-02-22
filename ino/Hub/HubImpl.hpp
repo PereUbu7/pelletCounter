@@ -24,10 +24,6 @@ void Hub<numberOfDS18B20s, numberOfSamples, secondsBetweenReads>::RunHost()
   {
     Serial.println("Couldn't read sensors - buffer is full");
   }
-  else
-  {
-    Serial.println("Read sensors");
-  }
 }
 
 template <size_t numberOfDS18B20s, size_t numberOfSamples, unsigned long secondsBetweenReads>
@@ -85,7 +81,8 @@ bool Hub<numberOfDS18B20s, numberOfSamples, secondsBetweenReads>::StartClient()
   auto timeout = millis() + 30000ul;
   while ((WiFi.status() != WL_CONNECTED) && (millis() < timeout))
   {
-    // delay(50); TODO: Remake without delay. Maybe a state: ClientConnecting
+    // delay(500);// TODO: Remake without delay. Maybe a state: ClientConnecting
+    Serial.print("Waiting...");
   }
 
   if (millis() > timeout)
@@ -144,6 +141,7 @@ bool Hub<numberOfDS18B20s, numberOfSamples, secondsBetweenReads>::SendSensorData
 
   client.print("GET ");
   client.print(config.ClientSensorEndpoint);
+  client.println(_reader.GetData().toJson().c_str());
   client.stop();
 
   Serial.println("Sending sensor data");
