@@ -24,14 +24,28 @@ class DbConnection
 		}
 	}
 
-	function InsertStepperStart($version)
+	function InsertSensorStats($version, $data)
 	{
-		$stmt = $this->dbConnection->prepare( "INSERT INTO stepperStart
-        (timestamp, version) VALUES (?, ?);");
+		$stmt = $this->dbConnection->prepare( "INSERT INTO sensorStats
+        (timestamp, version, data) VALUES (?, ?, ?);");
 
         $timestamp = date("Y-m-d H:i:s");
 		
-		$params = [$timestamp, $version];
+		$params = [$timestamp, $version, $data];
+		$stmt->execute($params);
+
+		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+	function InsertStepperStart($version, $count)
+	{
+		$stmt = $this->dbConnection->prepare( "INSERT INTO stepperStartHist
+        (timestamp, version, count) VALUES (?, ?, ?);");
+
+        $timestamp = date("Y-m-d H:i:s");
+		
+		$params = [$timestamp, $version, $count];
 		$stmt->execute($params);
 
 		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
