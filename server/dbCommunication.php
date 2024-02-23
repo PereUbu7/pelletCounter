@@ -54,7 +54,7 @@ class DbConnection
 
 	function GetAll($from, $to)
 	{
-		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStart WHERE (? OR timestamp > ?) AND (? OR timestamp < ?);");
+		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStartHist WHERE (? OR timestamp > ?) AND (? OR timestamp < ?);");
 
 		$params = [is_null($from), $from, is_null($to), $to];
 		$stmt->execute($params);
@@ -73,7 +73,7 @@ class DbConnection
 
 		$reduced = array_reduce($all, function ($carry, $item) 
 		{
-			$carry[$item] = !isset($carry[$item]) ? 1 : $carry[$item] + 1;
+			$carry[$item] = !isset($carry[$item]) ? $item['count'] : $carry[$item] + $item['count'];
 			return $carry;
 		},
 		array());
@@ -83,7 +83,7 @@ class DbConnection
 
 	function GetLatest()
 	{
-		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStart ORDER BY timestamp DESC LIMIT 1;");
+		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStartHist ORDER BY timestamp DESC LIMIT 1;");
 
 		$stmt->execute();
 
