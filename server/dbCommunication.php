@@ -27,7 +27,7 @@ class DbConnection
 	function InsertSensorStats($version, $data)
 	{
 		$stmt = $this->dbConnection->prepare( "INSERT INTO sensorStats
-        (timestamp, version, data) VALUES (?, ?, ?);");
+        (timestamp, version, json) VALUES (?, ?, ?);");
 
         $timestamp = date("Y-m-d H:i:s");
 		
