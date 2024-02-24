@@ -66,14 +66,14 @@ class DbConnection
 	function GetHistogram($bucket, $from, $to)
 	{
 		$all = $this->GetAll($from, $to);
-
-		$all = array_map(function ($a) use ($bucket) { return date($bucket, strtotime($a['timestamp'])); }, $all);
+		
+		$all = array_map(function ($a) use ($bucket) { return array('t'=>date($bucket, strtotime($a['timestamp'])), 'count'=>$a['count']); }, $all);
 
 		$arr = array();
 
 		$reduced = array_reduce($all, function ($carry, $item) 
 		{
-			$carry[$item] = !isset($carry[$item]) ? $item['count'] : $carry[$item] + $item['count'];
+			$carry[$item['t']] = !isset($carry[$item['t']]) ? $item['count'] : $carry[$item['t']] + $item['count'];
 			return $carry;
 		},
 		array());
@@ -83,7 +83,7 @@ class DbConnection
 
 	function GetLatest()
 	{
-		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStartHist ORDER BY timestamp DESC LIMIT 1;");
+		$stmt = $this->dbConnection->prepare( "SELECT * FROM stepperStartHist	 ORDER BY timestamp DESC LIMIT 1;");
 
 		$stmt->execute();
 
