@@ -17,7 +17,7 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 	if( !empty($_GET["version"]) &&
 		!empty($_GET["type"]) &&
 		$_GET["type"] == "pellets" &&
-		!empty($_GET["count"]))
+		(!empty($_GET["count"]) || $_GET['count'] === '0'))
 	{
 		echo json_encode($db->InsertStepperStart($_GET["version"], $_GET['count']));
 	}
