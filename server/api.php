@@ -9,7 +9,18 @@ $db->Connect($settings["database"]["path"]);
 
 header('Content-Type: application/json; charset=utf-8');
 
-if( $_SERVER["REQUEST_METHOD"] == "GET" )
+if( $_SERVER['REQUEST_METHOD'] == 'POST')
+{
+	if( !empty($_POST["version"]) &&
+		!empty($_POST["type"]) &&
+		$_POST["type"] == "furnceRoomSensors" &&
+		!empty($_POST["json_data"]))
+	{
+		echo json_encode($db->InsertSensorStats($_POST["version"], $_POST['json_data']));
+	}
+}
+
+else if( $_SERVER["REQUEST_METHOD"] == "GET" )
 {
 	$from = isset($_GET["from"]) ? $_GET["from"] : null;
 	$to = isset($_GET["to"]) ? $_GET["to"] : null;
@@ -20,13 +31,6 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 		(!empty($_GET["count"]) || $_GET['count'] === '0'))
 	{
 		echo json_encode($db->InsertStepperStart($_GET["version"], $_GET['count']));
-	}
-	else if( !empty($_GET["version"]) &&
-		!empty($_GET["type"]) &&
-		$_GET["type"] == "furnceRoomSensors" &&
-		!empty($_GET["json_data"]))
-	{
-		echo json_encode($db->InsertSensorStats($_GET["version"], $_GET['json_data']));
 	}
 	else if( !empty($_GET["all"]))
 	{
