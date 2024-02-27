@@ -40,12 +40,18 @@
             },
             type: 'area',
         	data: {
+                labels: <?php
+                    echo json_encode(array_map(function ($p)
+                    {
+                        return $p['timestamp'];
+                    }, $data));
+                    ?>,
                 datasets: [{
                     fill: '+2',
                     dataPoints: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return array("y" => $p['json']['ATP5'], "label" => $p['timestamp']);
+                        return $p['json']['ATP5'];
                     }, $data));
                     ?>
                 },
@@ -53,7 +59,7 @@
         	    	dataPoints: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return array("y" => $p['json']['ATP50'], "label" => $p['timestamp']);
+                        return $p['json']['ATP50'];
                     }, $data));
                     ?>
         	    },
@@ -61,7 +67,7 @@
                     dataPoints: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return array("y" => $p['json']['ATP95'], "label" => $p['timestamp']);
+                        return $p['json']['ATP95'];
                     }, $data));
                     ?>
                 }
