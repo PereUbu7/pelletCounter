@@ -14,9 +14,9 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST')
 	if( !empty($_POST["version"]) &&
 		!empty($_POST["type"]) &&
 		$_POST["type"] == "furnceRoomSensors" &&
-		!empty($_POST["json_data"]))
+		!empty($_POST["json"]))
 	{
-		echo json_encode($db->InsertSensorStats($_POST["version"], $_POST['json_data']));
+		echo json_encode($db->InsertSensorStats($_POST["version"], $_POST['json']));
 	}
 }
 
