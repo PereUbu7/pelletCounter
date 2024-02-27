@@ -63,6 +63,20 @@ class DbConnection
 		return $res;
 	}
 
+	function GetAllSensors($from, $to)
+	{
+		$stmt = $this->dbConnection->prepare( "SELECT * FROM sensorStats WHERE (? OR timestamp > ?) AND (? OR timestamp < ?);");
+
+		$params = [is_null($from), $from, is_null($to), $to];
+		$stmt->execute($params);
+
+		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$resDeserialized = array_map(function ($row) { $row['json'] = json_decode($row['json']); });
+
+		return $resDeserialized;
+	}
+
 	function GetHistogram($bucket, $from, $to)
 	{
 		$all = $this->GetAll($from, $to);
@@ -89,6 +103,24 @@ class DbConnection
 
 		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $res;
+	}
+
+	function getSensorHistogram($bucket, $from, $to)
+	{
+		$all = $this->GetAllSensors($from, $to);
+		
+		$all = array_map(function ($a) use ($bucket) { return array('t'=>date($bucket, strtotime($a['timestamp'])), 'count'=>$a['count']); }, $all);
+
+		$arr = array();
+
+		$reduced = array_reduce($all, function ($carry, $item) 
+		{
+			$carry[$item['t']] = !isset($carry[$item['t']]) ? $item['count'] : $carry[$item['t']] + $item['count'];
+			return $carry;
+		},
+		array());
+
+		return $reduced;
 	}
 }
 ?>

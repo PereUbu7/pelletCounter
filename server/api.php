@@ -36,6 +36,10 @@ else if( $_SERVER["REQUEST_METHOD"] == "GET" )
 	{
 		echo json_encode($db->GetAll($from, $to));
 	}
+	else if( !empty($_GET["allSensors"]))
+	{
+		echo json_encode($db->GetAllSensors($from, $to));
+	}
 	else if( !empty($_GET["histogram"]))
 	{
 		echo json_encode($db->GetHistogram($_GET["histogram"], $from, $to));
