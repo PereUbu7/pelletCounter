@@ -71,7 +71,7 @@
 
         // chartAmbientTemp.render();
 
-        var chartAmbientHum = new CanvasJS.Chart("chartAmbientHum", {
+        var chartAmbientHum = new Chart(document.getElementById("chartAmbientHum"), {
         	animationEnabled: true,
 	        zoomEnabled: true,
         	title:{
@@ -92,7 +92,7 @@
         	}]
         });
 
-        chartAmbientHum.render();
+        // chartAmbientHum.render();
 
         }
     </script>
