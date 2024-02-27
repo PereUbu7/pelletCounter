@@ -29,15 +29,12 @@
         var chartAmbientTemp = new Chart(document.getElementById("chartAmbientTemp"), {
         	animationEnabled: true,
 	        zoomEnabled: true,
-        	title:{
-        		text: "Lufttemperatur"
-        	},
-        	axisY: {
-        		title: "C"
-        	},
-            axisX:{      
-                title: "tid"
-            },
+        	options: {
+                title: {
+                    display: true,
+                    text: 'Lufttemperatur'
+                }
+            }
             type: 'area',
         	data: {
                 labels: <?php
@@ -80,22 +77,29 @@
         var chartAmbientHum = new Chart(document.getElementById("chartAmbientHum"), {
         	animationEnabled: true,
 	        zoomEnabled: true,
-        	title:{
-        		text: "Luftfuktighet"
-        	},
-        	axisY: {
-        		title: "tid"
-        	},
-        	data: [{
+        	options: {
+                title: {
+                    display: true,
+                    text: 'Luftfuktighet'
+                }
+            },
+        	data: {
                 type: "line",
-        		dataPoints: 
+                labels: <?php
+                    echo json_encode(array_map(function ($p)
+                    {
+                        return $p['timestamp'];
+                    }, $data));
+                    ?>,
+        		datasets: [{
                 <?php
                 echo json_encode(array_map(function ($p)
                 {
-                    return array("y" => $p['json']['AHP50'], "label" => $p['timestamp']);
+                    return $p['json']['AHP50'];
                 }, $data));
                 ?>
-        	}]
+                }]
+        	}
         });
 
         // chartAmbientHum.render();
