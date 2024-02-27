@@ -20,8 +20,8 @@
       </head>
 
     <body>
-        <div id="chartAmbientTemp" style="height: 370px; width: 100%;"></div>
-        <div id="chartAmbientHum" style="height: 370px; width: 100%;"></div>
+        <canvas id="chartAmbientTemp" style="height: 370px; width: 100%;"></canvas>
+        <canvas id="chartAmbientHum" style="height: 370px; width: 100%;"></canvas>
 
         <script>
         window.onload = function () {
