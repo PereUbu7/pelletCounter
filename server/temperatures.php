@@ -38,34 +38,37 @@
             axisX:{      
                 title: "tid"
             },
-        	data: [{
-                type: "line",
-                fill: '+2',
-                dataPoints: <?php
-                echo json_encode(array_map(function ($p)
+        	data: {
+                datasets: [{
+                    type: "line",
+                    fill: '+2',
+                    dataPoints: <?php
+                    echo json_encode(array_map(function ($p)
+                    {
+                        return array("y" => $p['json']['ATP5'], "label" => $p['timestamp']);
+                    }, $data));
+                    ?>
+                },
                 {
-                    return array("y" => $p['json']['ATP5'], "label" => $p['timestamp']);
-                }, $data));
-                ?>
-            },
-            {
-                type: "line",
-        		dataPoints: <?php
-                echo json_encode(array_map(function ($p)
+                    type: "line",
+        	    	dataPoints: <?php
+                    echo json_encode(array_map(function ($p)
+                    {
+                        return array("y" => $p['json']['ATP50'], "label" => $p['timestamp']);
+                    }, $data));
+                    ?>
+        	    },
                 {
-                    return array("y" => $p['json']['ATP50'], "label" => $p['timestamp']);
-                }, $data));
-                ?>
-        	},
-            {
-                type: "line",
-                dataPoints: <?php
-                echo json_encode(array_map(function ($p)
-                {
-                    return array("y" => $p['json']['ATP95'], "label" => $p['timestamp']);
-                }, $data));
-                ?>
-            }]
+                    type: "line",
+                    dataPoints: <?php
+                    echo json_encode(array_map(function ($p)
+                    {
+                        return array("y" => $p['json']['ATP95'], "label" => $p['timestamp']);
+                    }, $data));
+                    ?>
+                }
+            ]
+        }
         });
 
         chartAmbientTemp.render();
