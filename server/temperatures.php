@@ -26,7 +26,7 @@
         <script>
         window.onload = function () {
         
-        var chartAmbientTemp = new CanvasJS.Chart("chartAmbientTemp", {
+        var chartAmbientTemp = new CanvasJS.Chart(document.getElementById("chartAmbientTemp"), {
         	animationEnabled: true,
 	        zoomEnabled: true,
         	title:{
@@ -38,9 +38,9 @@
             axisX:{      
                 title: "tid"
             },
+            type: 'area',
         	data: {
                 datasets: [{
-                    type: "line",
                     fill: '+2',
                     dataPoints: <?php
                     echo json_encode(array_map(function ($p)
@@ -50,7 +50,6 @@
                     ?>
                 },
                 {
-                    type: "line",
         	    	dataPoints: <?php
                     echo json_encode(array_map(function ($p)
                     {
@@ -59,7 +58,6 @@
                     ?>
         	    },
                 {
-                    type: "line",
                     dataPoints: <?php
                     echo json_encode(array_map(function ($p)
                     {
