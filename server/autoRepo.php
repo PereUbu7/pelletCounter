@@ -22,9 +22,9 @@ class autoRepository
         return $histogram;
     }
 
-    function GetAllSensors()
+    function GetAllSensors($from = null, $to = null)
     {
-        return $this->_connection->GetAllSensors();
+        return $this->_connection->GetAllSensors($from, $to);
     }
 
     function getSensorValues($bucket, $from = null, $to = null)
