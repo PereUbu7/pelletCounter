@@ -26,7 +26,7 @@
         <script>
         window.onload = function () {
         
-        var chartAmbientTemp = new CanvasJS.Chart(document.getElementById("chartAmbientTemp"), {
+        var chartAmbientTemp = new Chart(document.getElementById("chartAmbientTemp"), {
         	animationEnabled: true,
 	        zoomEnabled: true,
         	title:{
@@ -69,7 +69,7 @@
         }
         });
 
-        chartAmbientTemp.render();
+        // chartAmbientTemp.render();
 
         var chartAmbientHum = new CanvasJS.Chart("chartAmbientHum", {
         	animationEnabled: true,
