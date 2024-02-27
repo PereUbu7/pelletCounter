@@ -26,7 +26,7 @@
         <script>
         window.onload = function () {
         
-        var chartCorr = new CanvasJS.Chart("chartAmbientTemp", {
+        var chartAmbientTemp = new CanvasJS.Chart("chartAmbientTemp", {
         	animationEnabled: true,
 	        zoomEnabled: true,
         	title:{
@@ -39,24 +39,38 @@
                 title: "tid"
             },
         	data: [{
-                type: "scatter",
-		        markerType: "square",
-                showInLegend: true, 
-                name: "requests",
-                legendText: "Normal",
-        		markerSize: 5,
+                type: "line",
+                fill: '+2',
+                dataPoints: <?php
+                echo json_encode(array_map(function ($p)
+                {
+                    return array("y" => $p['json']['ATP5'], "label" => $p['timestamp']);
+                }, $data));
+                ?>
+            },
+            {
+                type: "line",
         		dataPoints: <?php
-                json_encode(array_map(function ($p)
+                echo json_encode(array_map(function ($p)
                 {
                     return array("y" => $p['json']['ATP50'], "label" => $p['timestamp']);
                 }, $data));
                 ?>
-        	}]
+        	},
+            {
+                type: "line",
+                dataPoints: <?php
+                echo json_encode(array_map(function ($p)
+                {
+                    return array("y" => $p['json']['ATP95'], "label" => $p['timestamp']);
+                }, $data));
+                ?>
+            }]
         });
 
-        chartCorr.render();
+        chartAmbientTemp.render();
 
-        var chartTime = new CanvasJS.Chart("chartAmbientHum", {
+        var chartAmbientHum = new CanvasJS.Chart("chartAmbientHum", {
         	animationEnabled: true,
 	        zoomEnabled: true,
         	title:{
@@ -69,7 +83,7 @@
                 type: "line",
         		dataPoints: 
                 <?php
-                json_encode(array_map(function ($p)
+                echo json_encode(array_map(function ($p)
                 {
                     return array("y" => $p['json']['AHP50'], "label" => $p['timestamp']);
                 }, $data));
@@ -77,7 +91,7 @@
         	}]
         });
 
-        chartTime.render();
+        chartAmbientHum.render();
 
         }
     </script>
