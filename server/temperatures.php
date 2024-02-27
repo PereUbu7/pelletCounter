@@ -34,7 +34,7 @@
                     display: true,
                     text: 'Lufttemperatur'
                 }
-            }
+            },
             type: 'area',
         	data: {
                 labels: <?php
