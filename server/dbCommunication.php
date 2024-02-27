@@ -72,7 +72,7 @@ class DbConnection
 
 		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		$resDeserialized = array_map(function ($row) { $row['json'] = json_decode($row['json']); }, $res);
+		$resDeserialized = array_map(function ($row) { $row['json'] = json_decode($row['json']); return $row; }, $res);
 
 		return $resDeserialized;
 	}

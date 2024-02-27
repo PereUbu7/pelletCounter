@@ -22,6 +22,19 @@ class autoRepository
         return $histogram;
     }
 
-    
+    function GetAllSensors()
+    {
+        return $this->_connection->GetAllSensors();
+    }
+
+    function getSensorValues($bucket, $from = null, $to = null)
+    {
+        $histogram = $this->_connection->getSensorHistogram($bucket, $from, $to);
+
+        # Sort by keys (buckets)
+        ksort($histogram);
+
+        return $histogram;
+    }
 }
 ?>
