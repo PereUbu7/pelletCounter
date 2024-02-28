@@ -26,7 +26,6 @@
         <canvas id="Temp2"  width="800" height="450"></canvas>
         <canvas id="Temp3"  width="800" height="450"></canvas>
         <canvas id="Temp4"  width="800" height="450"></canvas>
-        <canvas id="Temp5"  width="800" height="450"></canvas>
 
         <script>
             new Chart(document.getElementById("chartAmbientTemp"), {
@@ -350,7 +349,7 @@
                     ?>,
                 datasets: [
                     {
-                        label: "P5",
+                        label: "P5 1",
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
@@ -362,7 +361,7 @@
                         backgroundColor: "rgba(179,181,198,0.5)"
                     },
                     {
-                        label: "P50",
+                        label: "P50 1",
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
@@ -374,11 +373,47 @@
                         fill: false
                     },
                     {
-                        label: "P95",
+                        label: "P95 1",
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
                         return $p['json']['DS'][2]['P95'];
+                    }, $data));
+                    ?>,
+                        borderColor: "blue",
+                        backgroundColor: "rgba(27,42,198,0.5)",
+                        fill: false
+                    },
+                    {
+                        label: "P5 2",
+                        data: <?php
+                            echo json_encode(array_map(function ($p)
+                            {
+                                return $p['json']['DS'][4]['P5'];
+                            }, $data));
+                    ?>,
+                        fill: '5',
+                        borderColor: "red",
+                        backgroundColor: "rgba(179,181,198,0.5)"
+                    },
+                    {
+                        label: "P50 2",
+                        data: <?php
+                    echo json_encode(array_map(function ($p)
+                    {
+                        return $p['json']['DS'][4]['P50'];
+                    }, $data));
+                    ?>,
+                        borderColor: "green",
+                        backgroundColor: "rgba(26,181,53,0.5)",
+                        fill: false
+                    },
+                    {
+                        label: "P95 2",
+                        data: <?php
+                    echo json_encode(array_map(function ($p)
+                    {
+                        return $p['json']['DS'][4]['P95'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
@@ -391,7 +426,7 @@
                 legend: { display: true },
                 title: {
                     display: true,
-                    text: 'Temperatur 3'
+                    text: 'Temperatur 3-5'
                 },
                 elements: {
                     line: {
@@ -454,68 +489,6 @@
                 title: {
                     display: true,
                     text: 'Temperatur 4'
-                },
-                elements: {
-                    line: {
-                        tension: 0
-                    }
-                }
-            }
-            });
-
-            new Chart(document.getElementById("Temp5"), {
-            type: 'line',
-            data: {
-                labels: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['timestamp'];
-                    }, $data));
-                    ?>,
-                datasets: [
-                    {
-                        label: "P5",
-                        data: <?php
-                            echo json_encode(array_map(function ($p)
-                            {
-                                return $p['json']['DS'][4]['P5'];
-                            }, $data));
-                    ?>,
-                        fill: '2',
-                        borderColor: "red",
-                        backgroundColor: "rgba(179,181,198,0.5)"
-                    },
-                    {
-                        label: "P50",
-                        data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['json']['DS'][4]['P50'];
-                    }, $data));
-                    ?>,
-                        borderColor: "green",
-                        backgroundColor: "rgba(26,181,53,0.5)",
-                        fill: false
-                    },
-                    {
-                        label: "P95",
-                        data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['json']['DS'][4]['P95'];
-                    }, $data));
-                    ?>,
-                        borderColor: "blue",
-                        backgroundColor: "rgba(27,42,198,0.5)",
-                        fill: false
-                    }
-                ]
-            },
-            options: {
-                legend: { display: true },
-                title: {
-                    display: true,
-                    text: 'Temperatur 5'
                 },
                 elements: {
                     line: {
