@@ -437,7 +437,7 @@
             }
             });
 
-            ew Chart(document.getElementById("Temp35diff"), {
+            new Chart(document.getElementById("Temp35diff"), {
             type: 'line',
             data: {
                 labels: <?php
