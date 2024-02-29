@@ -24,6 +24,7 @@
 
         <script>
             new Chart(document.getElementById("sensorErrors"), {
+            responsive: true,
             type: 'line',
             data: {
                 labels: <?php
@@ -41,7 +42,7 @@
                                 return $p['json']['AE'];
                             }, $data));
                     ?>,
-                        fill: '2',
+                        fill: false,
                         borderColor: "red",
                         backgroundColor: "rgba(179,181,198,0.5)"
                     },
@@ -77,7 +78,7 @@
                         return $p['json']['DS'][2]['E'];
                     }, $data));
                     ?>,
-                        borderColor: "blue",
+                        borderColor: "orage",
                         backgroundColor: "rgba(27,42,198,0.5)",
                         fill: false
                     },
@@ -89,7 +90,7 @@
                         return $p['json']['DS'][3]['E'];
                     }, $data));
                     ?>,
-                        borderColor: "blue",
+                        borderColor: "magenta",
                         backgroundColor: "rgba(27,42,198,0.5)",
                         fill: false
                     },
@@ -101,7 +102,7 @@
                         return $p['json']['DS'][4]['E'];
                     }, $data));
                     ?>,
-                        borderColor: "blue",
+                        borderColor: "black",
                         backgroundColor: "rgba(27,42,198,0.5)",
                         fill: false
                     }
