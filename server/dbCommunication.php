@@ -102,9 +102,9 @@ class DbConnection
 		{
 			return array(
 				'timestamp' => $timestamp,
-				'AP5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AP5']; }), 
-				'AP50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AP50']; }), 
-				'AP95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AP95']; }), 
+				'ATP5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['ATP5']; }), 
+				'ATP50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['ATP50']; }), 
+				'ATP95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['ATP95']; }), 
 			);
 		}, array_keys($collectedPerBucket));
 
