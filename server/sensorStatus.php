@@ -68,7 +68,7 @@
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
-                                return $p['json']['AE'];
+                                return $p['AE'];
                             }, $data));
                     ?>,
                         fill: false,
@@ -80,7 +80,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][0]['E'];
+                        return $p['DS'][0]['E'];
                     }, $data));
                     ?>,
                         borderColor: "green",
@@ -92,7 +92,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][1]['E'];
+                        return $p['DS'][1]['E'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
@@ -104,7 +104,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][2]['E'];
+                        return $p['DS'][2]['E'];
                     }, $data));
                     ?>,
                         borderColor: "orage",
@@ -116,7 +116,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][3]['E'];
+                        return $p['DS'][3]['E'];
                     }, $data));
                     ?>,
                         borderColor: "magenta",
@@ -128,7 +128,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][4]['E'];
+                        return $p['DS'][4]['E'];
                     }, $data));
                     ?>,
                         borderColor: "black",
