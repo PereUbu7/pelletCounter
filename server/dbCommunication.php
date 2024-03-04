@@ -1,4 +1,7 @@
 <?php
+
+require('utils.php');
+
 class DbConnection
 {
 	private $dbConnection;
@@ -63,7 +66,7 @@ class DbConnection
 		return $res;
 	}
 
-	function GetAllSensors($from, $to)
+	function GetAllSensors($bucket, $from, $to)
 	{
 		$stmt = $this->dbConnection->prepare( "SELECT * FROM sensorStats WHERE (? OR timestamp > ?) AND (? OR timestamp < ?);");
 
@@ -74,7 +77,38 @@ class DbConnection
 
 		$resDeserialized = array_map(function ($row) { $row['json'] = json_decode($row['json'], true); return $row; }, $res);
 
-		return $resDeserialized;
+		$resDeserialized = array_map(function ($a) use ($bucket) 
+		{ 
+			return array(
+				't'=>date($bucket, strtotime($a['timestamp'])), 
+				'json'=>$a['json']); 
+		}, $resDeserialized);
+
+		$collectedPerBucket = array_reduce($resDeserialized, function($carry, $item)
+		{
+			if(isset($carry[$item['t']]))
+			{
+				array_push($carry[$item['t']], $item['json']);
+			} 
+			else 
+			{
+				$carry['$t'] = array($item['json']);
+			}
+			return $carry;
+
+		}, array());
+
+		$meanPerBucket = array_map(array_keys($collectedPerBucket), function($timestamp) use ($collectedPerBucket)
+		{
+			return array(
+				'timestamp' => $timestamp,
+				'AP5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AP5']; }), 
+				'AP50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AP50']; }), 
+				'AP95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AP95']; }), 
+			);
+		});
+
+		return $meanPerBucket;
 	}
 
 	function GetHistogram($bucket, $from, $to)
@@ -82,8 +116,6 @@ class DbConnection
 		$all = $this->GetAll($from, $to);
 		
 		$all = array_map(function ($a) use ($bucket) { return array('t'=>date($bucket, strtotime($a['timestamp'])), 'count'=>$a['count']); }, $all);
-
-		$arr = array();
 
 		$reduced = array_reduce($all, function ($carry, $item) 
 		{

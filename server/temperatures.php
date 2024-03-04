@@ -6,7 +6,9 @@
 
     $autoRepo = new autoRepository($config['database']['path']);
 
-    $data = $autoRepo->GetAllSensors();
+    $bucket = 'Y-m-d';
+
+    $data = $autoRepo->GetAllSensors($bucket);
 ?>
 
 <!DOCTYPE html>
