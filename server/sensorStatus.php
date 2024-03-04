@@ -6,7 +6,36 @@
 
     $autoRepo = new autoRepository($config['database']['path']);
 
-    $data = $autoRepo->GetAllSensors();
+
+    $bucket = 'Y-m-d';
+    $debug = false;
+    $merge = 1;
+    $from = null;
+    $to = null;
+
+    if( $_SERVER["REQUEST_METHOD"] == "GET" )
+    {
+        $from = isset($_GET["from"]) ? $_GET["from"] : null;
+        $to = isset($_GET["to"]) ? $_GET["to"] : null;
+
+	    if( !empty($_GET["bucket"]))
+        {
+            $bucket = $_GET["bucket"];
+        }
+        if( !empty($_GET['merge']))
+        {
+            $merge = $_GET['merge'];
+        }
+        if( !empty($_GET['debug']))
+        {
+            if($_GET['debug'] = true)
+            {
+                $debug = true;
+            }
+        }
+    }
+
+    $data = $autoRepo->GetAllSensors($bucket, $from, $to);
 ?>
 
 <!DOCTYPE html>

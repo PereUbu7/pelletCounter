@@ -108,33 +108,40 @@ class DbConnection
 
 				'AHP5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AHP5']; }), 
 				'AHP50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AHP50']; }), 
-				'AHP95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AHP95']; }), 
+				'AHP95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AHP95']; }),
+
+				'AE' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AE']; }), 
 
 				'DS' => array( 
 					array(
 						'P5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][0]['P5']; }), 
 						'P50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][0]['P50']; }), 
-						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][0]['P95']; })
+						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][0]['P95']; }),
+						'E' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][0]['E']; })
 					),
 					array(
 						'P5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][1]['P5']; }), 
 						'P50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][1]['P50']; }), 
-						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][1]['P95']; })
+						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][1]['P95']; }),
+						'E' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][1]['E']; })
 					),
 					array(
 						'P5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][2]['P5']; }), 
 						'P50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][2]['P50']; }), 
-						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][2]['P95']; })
+						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][2]['P95']; }),
+						'E' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][2]['E']; })
 					),
 					array(
 						'P5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][3]['P5']; }), 
 						'P50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][3]['P50']; }), 
-						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][3]['P95']; })
+						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][3]['P95']; }),
+						'E' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][3]['E']; })
 					),
 					array(
 						'P5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][4]['P5']; }), 
 						'P50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][4]['P50']; }), 
-						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][4]['P95']; })
+						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][4]['P95']; }),
+						'E' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][4]['E']; })
 					)
 				)
 			);
