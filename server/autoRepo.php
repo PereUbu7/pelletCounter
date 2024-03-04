@@ -24,7 +24,7 @@ class autoRepository
 
     function GetAllSensors($bucket, $from = null, $to = null)
     {
-        return $this->_connection->GetAllSensors($from, $to);
+        return $this->_connection->GetAllSensors($bucket, $from, $to);
     }
 
     function getSensorValues($bucket, $from = null, $to = null)
