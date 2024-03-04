@@ -72,7 +72,7 @@
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
-                                return $p['json']['ATP5'];
+                                return $p['ATP5'];
                             }, $data));
                     ?>,
                         fill: '2',
@@ -84,7 +84,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['ATP50'];
+                        return $p['ATP50'];
                     }, $data));
                     ?>,
                         borderColor: "green",
@@ -96,7 +96,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['ATP95'];
+                        return $p['ATP95'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
@@ -134,7 +134,7 @@
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
-                                return $p['json']['AHP5'];
+                                return $p['AHP5'];
                             }, $data));
                     ?>,
                         fill: '2',
@@ -146,7 +146,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['AHP50'];
+                        return $p['AHP50'];
                     }, $data));
                     ?>,
                         borderColor: "green",
@@ -158,7 +158,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['AHP95'];
+                        return $p['AHP95'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
@@ -196,7 +196,7 @@
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
-                                return $p['json']['DS'][0]['P5'];
+                                return $p['DS'][0]['P5'];
                             }, $data));
                     ?>,
                         fill: '2',
@@ -208,7 +208,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][0]['P50'];
+                        return $p['DS'][0]['P50'];
                     }, $data));
                     ?>,
                         borderColor: "green",
@@ -220,7 +220,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][0]['P95'];
+                        return $p['DS'][0]['P95'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
@@ -258,7 +258,7 @@
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
-                                return $p['json']['DS'][1]['P5'];
+                                return $p['DS'][1]['P5'];
                             }, $data));
                     ?>,
                         fill: '2',
@@ -270,7 +270,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][1]['P50'];
+                        return $p['DS'][1]['P50'];
                     }, $data));
                     ?>,
                         borderColor: "green",
@@ -282,7 +282,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][1]['P95'];
+                        return $p['DS'][1]['P95'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
@@ -320,7 +320,7 @@
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
-                                return $p['json']['DS'][2]['P5'];
+                                return $p['DS'][2]['P5'];
                             }, $data));
                     ?>,
                         fill: '2',
@@ -332,7 +332,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][2]['P50'];
+                        return $p['DS'][2]['P50'];
                     }, $data));
                     ?>,
                         borderColor: "green",
@@ -344,7 +344,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][2]['P95'];
+                        return $p['DS'][2]['P95'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
@@ -356,7 +356,7 @@
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
-                                return $p['json']['DS'][4]['P5'];
+                                return $p['DS'][4]['P5'];
                             }, $data));
                     ?>,
                         fill: '5',
@@ -368,7 +368,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][4]['P50'];
+                        return $p['DS'][4]['P50'];
                     }, $data));
                     ?>,
                         borderColor: "green",
@@ -380,7 +380,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][4]['P95'];
+                        return $p['DS'][4]['P95'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
@@ -418,7 +418,7 @@
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
-                                return $p['json']['DS'][2]['P5'] - $p['json']['DS'][4]['P95'];
+                                return $p['DS'][2]['P5'] - $p['DS'][4]['P95'];
                             }, $data));
                     ?>,
                         fill: '2',
@@ -430,7 +430,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][2]['P50'] - $p['json']['DS'][4]['P50'];
+                        return $p['DS'][2]['P50'] - $p['DS'][4]['P50'];
                     }, $data));
                     ?>,
                         borderColor: "green",
@@ -442,7 +442,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][2]['P95'] - $p['json']['DS'][4]['P5'];
+                        return $p['DS'][2]['P95'] - $p['DS'][4]['P5'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
@@ -480,7 +480,7 @@
                         data: <?php
                             echo json_encode(array_map(function ($p)
                             {
-                                return $p['json']['DS'][3]['P5'];
+                                return $p['DS'][3]['P5'];
                             }, $data));
                     ?>,
                         fill: '2',
@@ -492,7 +492,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][3]['P50'];
+                        return $p['DS'][3]['P50'];
                     }, $data));
                     ?>,
                         borderColor: "green",
@@ -504,7 +504,7 @@
                         data: <?php
                     echo json_encode(array_map(function ($p)
                     {
-                        return $p['json']['DS'][3]['P95'];
+                        return $p['DS'][3]['P95'];
                     }, $data));
                     ?>,
                         borderColor: "blue",
