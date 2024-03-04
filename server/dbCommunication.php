@@ -135,11 +135,6 @@ class DbConnection
 						'P5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][4]['P5']; }), 
 						'P50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][4]['P50']; }), 
 						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][4]['P95']; })
-					),
-					array(
-						'P5' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][5]['P5']; }), 
-						'P50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][5]['P50']; }), 
-						'P95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['DS'][5]['P95']; })
 					)
 				)
 			);
