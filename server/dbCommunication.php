@@ -98,7 +98,7 @@ class DbConnection
 
 		}, array());
 
-		$meanPerBucket = array_map(array_keys($collectedPerBucket), function($timestamp) use ($collectedPerBucket)
+		$meanPerBucket = array_map(function($timestamp) use ($collectedPerBucket)
 		{
 			return array(
 				'timestamp' => $timestamp,
@@ -106,7 +106,7 @@ class DbConnection
 				'AP50' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AP50']; }), 
 				'AP95' => ArrayReduction::Mean($collectedPerBucket[$timestamp], function ($v) { return $v['AP95']; }), 
 			);
-		});
+		}, array_keys($collectedPerBucket));
 
 		return $meanPerBucket;
 	}
