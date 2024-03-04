@@ -92,7 +92,7 @@ class DbConnection
 			} 
 			else 
 			{
-				$carry['$t'] = array($item['json']);
+				$carry[$item['t']] = array($item['json']);
 			}
 			return $carry;
 
