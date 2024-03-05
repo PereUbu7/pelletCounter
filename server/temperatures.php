@@ -416,11 +416,11 @@
                     {
                         label: "P5",
                         data: <?php
-                            echo json_encode(array_map(function ($p)
-                            {
-                                return $p['DS'][2]['P5'] - $p['DS'][4]['P95'];
-                            }, $data));
-                    ?>,
+                            BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][2]['P5'] - $item['DS'][4]['P95']; 
+                            });
+                        ?>,
                         fill: '2',
                         borderColor: "red",
                         backgroundColor: "rgba(179,181,198,0.5)"
@@ -428,11 +428,11 @@
                     {
                         label: "P50",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['DS'][2]['P50'] - $p['DS'][4]['P50'];
-                    }, $data));
-                    ?>,
+                            BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][2]['P50'] - $item['DS'][4]['P50']; 
+                            });
+                        ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
                         fill: false
@@ -440,11 +440,11 @@
                     {
                         label: "P95",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['DS'][2]['P95'] - $p['DS'][4]['P5'];
-                    }, $data));
-                    ?>,
+                            BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][2]['P95'] - $item['DS'][4]['P5']; 
+                            });
+                        ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
                         fill: false
