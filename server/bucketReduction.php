@@ -10,7 +10,7 @@ class BucketReduction
         { 
             echo '</br>new key: ' . $key . '</br>';
             echo json_encode($arr[$key]);
-           ArrayReduction::Mean($arr[$key], $transform); 
+           return ArrayReduction::Mean($arr[$key], $transform); 
         }, 
         array_keys($arr));
     }
