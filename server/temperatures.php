@@ -413,10 +413,7 @@
             type: 'line',
             data: {
                 labels: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['timestamp'];
-                    }, $data));
+                    echo json_encode(array_keys($data));
                     ?>,
                 datasets: [
                     {
