@@ -185,7 +185,7 @@
             type: 'line',
             data: {
                 labels: <?php
-                    echo json_encode(array_jeys($data));
+                    echo json_encode(array_keys($data));
                     ?>,
                 datasets: [
                     {
