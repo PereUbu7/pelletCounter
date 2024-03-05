@@ -37,9 +37,7 @@
 
     $data = $autoRepo->GetAllSensors($bucket, $from, $to);
 
-    echo json_encode($data);
-
-    echo '\n';
+    // echo json_encode($data);
 
     echo json_encode(BucketReduction::Mean($data, function ($item) 
     { 
