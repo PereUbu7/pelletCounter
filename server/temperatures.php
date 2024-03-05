@@ -67,19 +67,16 @@
             type: 'line',
             data: {
                 labels: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['timestamp'];
-                    }, $data));
+                    echo json_encode(array_keys($data));
                     ?>,
                 datasets: [
                     {
                         label: "P5",
                         data: <?php
-                            echo json_encode(array_map(function ($p)
-                            {
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
                                 return $p['ATP5'];
-                            }, $data));
+                            }));
                     ?>,
                         fill: '2',
                         borderColor: "red",
@@ -88,10 +85,10 @@
                     {
                         label: "P50",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['ATP50'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
@@ -100,10 +97,10 @@
                     {
                         label: "P95",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['ATP95'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
@@ -129,19 +126,16 @@
             type: 'line',
             data: {
                 labels: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['timestamp'];
-                    }, $data));
+                    echo json_encode(array_keys($data));
                     ?>,
                 datasets: [
                     {
                         label: "P5",
                         data: <?php
-                            echo json_encode(array_map(function ($p)
-                            {
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
                                 return $p['AHP5'];
-                            }, $data));
+                            }));
                     ?>,
                         fill: '2',
                         borderColor: "red",
@@ -150,10 +144,10 @@
                     {
                         label: "P50",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['AHP50'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
@@ -162,10 +156,10 @@
                     {
                         label: "P95",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['AHP95'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
@@ -191,19 +185,16 @@
             type: 'line',
             data: {
                 labels: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['timestamp'];
-                    }, $data));
+                    echo json_encode(array_jeys($data));
                     ?>,
                 datasets: [
                     {
                         label: "P5",
                         data: <?php
-                            echo json_encode(array_map(function ($p)
-                            {
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
                                 return $p['DS'][0]['P5'];
-                            }, $data));
+                            }));
                     ?>,
                         fill: '2',
                         borderColor: "red",
@@ -212,10 +203,10 @@
                     {
                         label: "P50",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][0]['P50'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
@@ -224,10 +215,10 @@
                     {
                         label: "P95",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][0]['P95'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
@@ -253,19 +244,16 @@
             type: 'line',
             data: {
                 labels: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['timestamp'];
-                    }, $data));
+                    echo json_encode(array_keys($data));
                     ?>,
                 datasets: [
                     {
                         label: "P5",
                         data: <?php
-                            echo json_encode(array_map(function ($p)
-                            {
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
                                 return $p['DS'][1]['P5'];
-                            }, $data));
+                            }));
                     ?>,
                         fill: '2',
                         borderColor: "red",
@@ -274,10 +262,10 @@
                     {
                         label: "P50",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][1]['P50'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
@@ -286,10 +274,10 @@
                     {
                         label: "P95",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][1]['P95'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
@@ -315,19 +303,16 @@
             type: 'line',
             data: {
                 labels: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['timestamp'];
-                    }, $data));
+                    echo json_encode(array_keys($data));
                     ?>,
                 datasets: [
                     {
                         label: "P5 1",
                         data: <?php
-                            echo json_encode(array_map(function ($p)
-                            {
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
                                 return $p['DS'][2]['P5'];
-                            }, $data));
+                            }));
                     ?>,
                         fill: '2',
                         borderColor: "red",
@@ -336,10 +321,10 @@
                     {
                         label: "P50 1",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][2]['P50'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
@@ -348,10 +333,10 @@
                     {
                         label: "P95 1",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][2]['P95'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
@@ -360,10 +345,10 @@
                     {
                         label: "P5 2",
                         data: <?php
-                            echo json_encode(array_map(function ($p)
-                            {
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
                                 return $p['DS'][4]['P5'];
-                            }, $data));
+                            }));
                     ?>,
                         fill: '5',
                         borderColor: "red",
@@ -372,10 +357,10 @@
                     {
                         label: "P50 2",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][4]['P50'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
@@ -384,10 +369,10 @@
                     {
                         label: "P95 2",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][4]['P95'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
@@ -472,19 +457,16 @@
             type: 'line',
             data: {
                 labels: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['timestamp'];
-                    }, $data));
+                    echo json_encode(array_keys($data));
                     ?>,
                 datasets: [
                     {
                         label: "P5",
                         data: <?php
-                            echo json_encode(array_map(function ($p)
-                            {
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
                                 return $p['DS'][3]['P5'];
-                            }, $data));
+                            }));
                     ?>,
                         fill: '2',
                         borderColor: "red",
@@ -493,10 +475,10 @@
                     {
                         label: "P50",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][3]['P50'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
@@ -505,10 +487,10 @@
                     {
                         label: "P95",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
                         return $p['DS'][3]['P95'];
-                    }, $data));
+                    }));
                     ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
