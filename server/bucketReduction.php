@@ -8,8 +8,6 @@ class BucketReduction
     {
         return array_map(function ($key) use ($arr, $transform)
         { 
-            echo '</br>new key: ' . $key . '</br>';
-            echo json_encode($arr[$key]);
            return ArrayReduction::Mean($arr[$key], $transform); 
         }, 
         array_keys($arr));

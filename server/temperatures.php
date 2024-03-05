@@ -37,8 +37,6 @@
 
     $data = $autoRepo->GetAllSensors($bucket, $from, $to);
 
-    // echo json_encode($data);
-
     echo json_encode(BucketReduction::Mean($data, function ($item) 
     { 
         return $item['DS'][2]['P50'] - $item['DS'][4]['P50']; 
@@ -424,10 +422,10 @@
                     {
                         label: "P5",
                         data: <?php
-                            BucketReduction::Mean($data, function ($item) 
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
                                 return $item['DS'][2]['P5'] - $item['DS'][4]['P95']; 
-                            });
+                            }));
                         ?>,
                         fill: '2',
                         borderColor: "red",
@@ -436,10 +434,10 @@
                     {
                         label: "P50",
                         data: <?php
-                            BucketReduction::Mean($data, function ($item) 
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
                                 return $item['DS'][2]['P50'] - $item['DS'][4]['P50']; 
-                            });
+                            }));
                         ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
@@ -448,10 +446,10 @@
                     {
                         label: "P95",
                         data: <?php
-                            BucketReduction::Mean($data, function ($item) 
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
                                 return $item['DS'][2]['P95'] - $item['DS'][4]['P5']; 
-                            });
+                            }));
                         ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
