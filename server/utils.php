@@ -6,6 +6,7 @@ class ArrayReduction
     {
         return array_reduce(array_map($select, $arr), function ($carry, $val) 
         {
+            echo '</br>summing value: ' . $val . '</br>';
             return $carry = $carry + $val;
         }, 0) / count($arr);
     }
