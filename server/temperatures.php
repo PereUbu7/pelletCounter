@@ -35,6 +35,11 @@
     }
 
     $data = $autoRepo->GetAllSensors($bucket, $from, $to);
+
+    echo json_encode(BucketReduction::Mean($data, function ($item) 
+    { 
+        return $item['DS'][2]['P50'] - $item['DS'][4]['P50']; 
+    }));
 ?>
 
 <!DOCTYPE html>
