@@ -7,10 +7,13 @@
 #define ONE_WIRE_BUS 14
 #define AM2301_BuS 12
 
-const size_t _numberOfSamples = 100;
+const size_t _numberOfSamples = 3;
 
 uint8_t sensor1[8] = { 0x28, 0xFF, 0x1E, 0xF6, 0xC3, 0x17, 0x04, 0xBA };
 uint8_t sensor2[8] = { 0x28, 0xFF, 0x19, 0x16, 0xC4, 0x17, 0x04, 0xD8 };
+uint8_t sensor3[8] = { 0x28, 0xAC, 0xAA, 0x43, 0xD4, 0x8E, 0x4D, 0x16 };
+uint8_t sensor4[8] = { 0x28, 0x8E, 0x0B, 0x43, 0xD4, 0x1F, 0x38, 0xF0 };
+uint8_t sensor5[8] = { 0x28, 0xF1, 0x1C, 0x43, 0xD4, 0x52, 0x38, 0x73 };
 
 DHTNEW am2301(AM2301_BuS);
 OneWire oneWire(ONE_WIRE_BUS);	
@@ -39,6 +42,15 @@ void loop(void)
     sensors.requestTemperatures(); 
     auto temp1 = sensors.getTempC(sensor1);
     auto temp2 = sensors.getTempC(sensor2);
+
+    Serial.print("2:");
+    Serial.print(sensors.getTempC(sensor2));
+    Serial.print(",3:");
+    Serial.print(sensors.getTempC(sensor3));
+    Serial.print(",4:");
+    Serial.print(sensors.getTempC(sensor4));
+    Serial.print(",5:");
+    Serial.println(sensors.getTempC(sensor5));
     
     auto am2301ErrorCode = am2301.read();
 
@@ -63,7 +75,7 @@ void loop(void)
     }
     
     auto getDuration = (signed long)millis() - (signed long)initTime;
-    // auto timeLeftToWait = 6000 - getDuration;
+
     auto timeLeftToWait = 6000 - getDuration;
 
     if(timeLeftToWait > 0)
@@ -88,31 +100,31 @@ void loop(void)
   const size_t am2301P50Index = getScaledP50Index(am2301Index);
   const size_t am2301P95Index = getScaledP95Index(am2301Index);
 
-  Serial.print("1P50:");
-  Serial.print(samples1[p501Index]);
-  Serial.print(",2P50:");
-  Serial.print(samples2[p502Index]);
-  Serial.print(",3P50:");
-  Serial.print(samplesAm2301Temp[am2301P50Index]);
-  Serial.print(",4P50:");
-  Serial.print(samplesAm2301Hum[am2301P50Index]);
-  Serial.print(",1P5:");
-  Serial.print(samples1[p51Index]);
-  Serial.print(",1P95:");
-  Serial.print(samples1[p951Index]);
+  // Serial.print("1P50:");
+  // Serial.print(samples1[p501Index]);
+  // Serial.print(",2P50:");
+  // Serial.print(samples2[p502Index]);
+  // Serial.print(",3P50:");
+  // Serial.print(samplesAm2301Temp[am2301P50Index]);
+  // Serial.print(",4P50:");
+  // Serial.print(samplesAm2301Hum[am2301P50Index]);
+  // Serial.print(",1P5:");
+  // Serial.print(samples1[p51Index]);
+  // Serial.print(",1P95:");
+  // Serial.print(samples1[p951Index]);
 
-  Serial.print(",2P5:");
-  Serial.print(samples2[p52Index]);
-  Serial.print(",2P95:");
-  Serial.print(samples2[p952Index]);
+  // Serial.print(",2P5:");
+  // Serial.print(samples2[p52Index]);
+  // Serial.print(",2P95:");
+  // Serial.print(samples2[p952Index]);
 
-  Serial.print(",3P5:");
-  Serial.print(samplesAm2301Temp[am2301P5Index]);
-  Serial.print(",3P95:");
-  Serial.print(samplesAm2301Temp[am2301P95Index]);
+  // Serial.print(",3P5:");
+  // Serial.print(samplesAm2301Temp[am2301P5Index]);
+  // Serial.print(",3P95:");
+  // Serial.print(samplesAm2301Temp[am2301P95Index]);
 
-  Serial.print(",4P5:");
-  Serial.print(samplesAm2301Hum[am2301P5Index]);
-  Serial.print(",4P95:");
-  Serial.println(samplesAm2301Hum[am2301P95Index]);
+  // Serial.print(",4P5:");
+  // Serial.print(samplesAm2301Hum[am2301P5Index]);
+  // Serial.print(",4P95:");
+  // Serial.println(samplesAm2301Hum[am2301P95Index]);
 }
