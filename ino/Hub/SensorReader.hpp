@@ -52,6 +52,8 @@ public:
             ++_readCounter;
 
             DoRead();
+
+            Serial.println("Read sensors");
         }
         return _readCounter < numberOfSamples;
     }
