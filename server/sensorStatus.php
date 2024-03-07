@@ -35,7 +35,7 @@
         }
     }
 
-    $data = $autoRepo->GetAllSensors($bucket, $from, $to);
+    $data = $autoRepo->GetAllSensors($bucket, $from, $to); 
 ?>
 
 <!DOCTYPE html>
@@ -57,19 +57,16 @@
             type: 'line',
             data: {
                 labels: <?php
-                    echo json_encode(array_map(function ($p)
-                    {
-                        return $p['timestamp'];
-                    }, $data));
+                    echo json_encode(array_keys($data));
                     ?>,
                 datasets: [
                     {
                         label: "AME",
                         data: <?php
-                            echo json_encode(array_map(function ($p)
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
                             {
-                                return $p['AE'];
-                            }, $data));
+                                return $item['AE'];
+                            }));
                     ?>,
                         fill: false,
                         borderColor: "red",
@@ -78,10 +75,10 @@
                     {
                         label: "E1",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
                     {
-                        return $p['DS'][0]['E'];
-                    }, $data));
+                        return $item['DS'][0]['E'];
+                    }));
                     ?>,
                         borderColor: "green",
                         backgroundColor: "rgba(26,181,53,0.5)",
@@ -90,10 +87,10 @@
                     {
                         label: "E2",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
                     {
-                        return $p['DS'][1]['E'];
-                    }, $data));
+                        return $item['DS'][1]['E'];
+                    }));
                     ?>,
                         borderColor: "blue",
                         backgroundColor: "rgba(27,42,198,0.5)",
@@ -102,10 +99,10 @@
                     {
                         label: "E3",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
                     {
-                        return $p['DS'][2]['E'];
-                    }, $data));
+                        return $item['DS'][2]['E'];
+                    }));
                     ?>,
                         borderColor: "orage",
                         backgroundColor: "rgba(27,42,198,0.5)",
@@ -114,10 +111,10 @@
                     {
                         label: "E4",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
                     {
-                        return $p['DS'][3]['E'];
-                    }, $data));
+                        return $item['DS'][3]['E'];
+                    }));
                     ?>,
                         borderColor: "magenta",
                         backgroundColor: "rgba(27,42,198,0.5)",
@@ -126,10 +123,10 @@
                     {
                         label: "E5",
                         data: <?php
-                    echo json_encode(array_map(function ($p)
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
                     {
-                        return $p['DS'][4]['E'];
-                    }, $data));
+                        return $item['DS'][4]['E'];
+                    }));
                     ?>,
                         borderColor: "black",
                         backgroundColor: "rgba(27,42,198,0.5)",
