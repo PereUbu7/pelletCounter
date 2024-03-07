@@ -1,6 +1,7 @@
 <?php
     ini_set('display_errors', 1);
     require_once('autoRepo.php');
+    require_once('bucketReduction.php');
 
     $config = parse_ini_file('appsettings.ini', true);
 
