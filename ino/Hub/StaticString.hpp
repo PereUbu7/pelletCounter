@@ -58,6 +58,14 @@ public:
         return *this;
     }
 
+    size_t stringLength() const
+    {
+      size_t strlen{0};
+      while(_data[strlen] != '\0') { ++strlen; }
+
+      return strlen;
+    }
+
 private:
     char _data[length];
     size_t currentIndex;
