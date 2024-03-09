@@ -102,7 +102,7 @@
                         return $item['DS'][2]['E'];
                     }));
                     ?>,
-                        borderColor: "orage",
+                        borderColor: "orange",
                         fill: false
                     },
                     {
