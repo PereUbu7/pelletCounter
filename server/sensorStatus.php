@@ -71,7 +71,6 @@
                     ?>,
                         fill: false,
                         borderColor: "red",
-                        backgroundColor: "rgba(179,181,198,0.5)"
                     },
                     {
                         label: "E1",
@@ -82,7 +81,6 @@
                     }));
                     ?>,
                         borderColor: "green",
-                        backgroundColor: "rgba(26,181,53,0.5)",
                         fill: false
                     },
                     {
@@ -94,7 +92,6 @@
                     }));
                     ?>,
                         borderColor: "blue",
-                        backgroundColor: "rgba(27,42,198,0.5)",
                         fill: false
                     },
                     {
@@ -106,7 +103,6 @@
                     }));
                     ?>,
                         borderColor: "orage",
-                        backgroundColor: "rgba(27,42,198,0.5)",
                         fill: false
                     },
                     {
@@ -118,7 +114,6 @@
                     }));
                     ?>,
                         borderColor: "magenta",
-                        backgroundColor: "rgba(27,42,198,0.5)",
                         fill: false
                     },
                     {
@@ -129,8 +124,7 @@
                         return $item['DS'][4]['E'];
                     }));
                     ?>,
-                        borderColor: "black",
-                        backgroundColor: "rgba(27,42,198,0.5)",
+                        borderColor: "yellow",
                         fill: false
                     }
                 ]
