@@ -52,10 +52,10 @@
         <canvas id="chartAmbientTemp"  width="800" height="450"></canvas>
         <canvas id="chartAmbientHum"  width="800" height="450"></canvas>
         <canvas id="Temp1"  width="800" height="450"></canvas>
-        <canvas id="Temp2"  width="800" height="450"></canvas>
         <canvas id="Temp3"  width="800" height="450"></canvas>
         <canvas id="Temp35diff"  width="800" height="450"></canvas>
         <canvas id="Temp4"  width="800" height="450"></canvas>
+        <canvas id="Temp42diff"  width="800" height="450"></canvas>
 
         <script>
             new Chart(document.getElementById("chartAmbientTemp"), {
@@ -235,65 +235,6 @@
             }
             });
 
-            new Chart(document.getElementById("Temp2"), {
-            type: 'line',
-            data: {
-                labels: <?php
-                    echo json_encode(array_keys($data));
-                    ?>,
-                datasets: [
-                    {
-                        label: "P5",
-                        data: <?php
-                            echo json_encode(BucketReduction::Mean($data, function ($item) 
-                            { 
-                                return $item['DS'][1]['P5'];
-                            }));
-                    ?>,
-                        fill: '2',
-                        borderColor: "red",
-                        backgroundColor: "rgba(179,181,198,0.5)"
-                    },
-                    {
-                        label: "P50",
-                        data: <?php
-                    echo json_encode(BucketReduction::Mean($data, function ($item) 
-                    { 
-                        return $item['DS'][1]['P50'];
-                    }));
-                    ?>,
-                        borderColor: "green",
-                        backgroundColor: "rgba(26,181,53,0.5)",
-                        fill: false
-                    },
-                    {
-                        label: "P95",
-                        data: <?php
-                    echo json_encode(BucketReduction::Mean($data, function ($item) 
-                    { 
-                        return $item['DS'][1]['P95'];
-                    }));
-                    ?>,
-                        borderColor: "blue",
-                        backgroundColor: "rgba(27,42,198,0.5)",
-                        fill: false
-                    }
-                ]
-            },
-            options: {
-                legend: { display: true },
-                title: {
-                    display: true,
-                    text: 'Temperatur 2'
-                },
-                elements: {
-                    line: {
-                        tension: 0
-                    }
-                }
-            }
-            });
-
             new Chart(document.getElementById("Temp3"), {
             type: 'line',
             data: {
@@ -456,7 +397,7 @@
                     ?>,
                 datasets: [
                     {
-                        label: "P5",
+                        label: "P5 1",
                         data: <?php
                             echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
@@ -468,7 +409,7 @@
                         backgroundColor: "rgba(179,181,198,0.5)"
                     },
                     {
-                        label: "P50",
+                        label: "P50 1",
                         data: <?php
                     echo json_encode(BucketReduction::Mean($data, function ($item) 
                     { 
@@ -480,11 +421,47 @@
                         fill: false
                     },
                     {
-                        label: "P95",
+                        label: "P95 1",
                         data: <?php
                     echo json_encode(BucketReduction::Mean($data, function ($item) 
                     { 
                         return $item['DS'][3]['P95'];
+                    }));
+                    ?>,
+                        borderColor: "blue",
+                        backgroundColor: "rgba(27,42,198,0.5)",
+                        fill: false
+                    },
+                    {
+                        label: "P5 2",
+                        data: <?php
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][1]['P5'];
+                            }));
+                    ?>,
+                        fill: '2',
+                        borderColor: "red",
+                        backgroundColor: "rgba(179,181,198,0.5)"
+                    },
+                    {
+                        label: "P50 2",
+                        data: <?php
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
+                        return $item['DS'][1]['P50'];
+                    }));
+                    ?>,
+                        borderColor: "green",
+                        backgroundColor: "rgba(26,181,53,0.5)",
+                        fill: false
+                    },
+                    {
+                        label: "P95 2",
+                        data: <?php
+                    echo json_encode(BucketReduction::Mean($data, function ($item) 
+                    { 
+                        return $item['DS'][1]['P95'];
                     }));
                     ?>,
                         borderColor: "blue",
@@ -497,7 +474,66 @@
                 legend: { display: true },
                 title: {
                     display: true,
-                    text: 'Temperatur 4'
+                    text: 'Temperatur 4-2'
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                }
+            }
+            });
+
+            new Chart(document.getElementById("Temp42diff"), {
+            type: 'line',
+            data: {
+                labels: <?php
+                    echo json_encode(array_keys($data));
+                    ?>,
+                datasets: [
+                    {
+                        label: "P5",
+                        data: <?php
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][1]['P5'] - $item['DS'][3]['P95']; 
+                            }));
+                        ?>,
+                        fill: '2',
+                        borderColor: "red",
+                        backgroundColor: "rgba(179,181,198,0.5)"
+                    },
+                    {
+                        label: "P50",
+                        data: <?php
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][1]['P50'] - $item['DS'][3]['P50']; 
+                            }));
+                        ?>,
+                        borderColor: "green",
+                        backgroundColor: "rgba(26,181,53,0.5)",
+                        fill: false
+                    },
+                    {
+                        label: "P95",
+                        data: <?php
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][1]['P95'] - $item['DS'][3]['P5']; 
+                            }));
+                        ?>,
+                        borderColor: "blue",
+                        backgroundColor: "rgba(27,42,198,0.5)",
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                legend: { display: true },
+                title: {
+                    display: true,
+                    text: 'Temperatur 4-2 differens'
                 },
                 elements: {
                     line: {
