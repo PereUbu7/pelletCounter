@@ -496,7 +496,7 @@
                         data: <?php
                             echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
-                                return $item['DS'][1]['P5'] - $item['DS'][3]['P95']; 
+                                return $item['DS'][3]['P5'] - $item['DS'][1]['P95']; 
                             }));
                         ?>,
                         fill: '2',
@@ -508,7 +508,7 @@
                         data: <?php
                             echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
-                                return $item['DS'][1]['P50'] - $item['DS'][3]['P50']; 
+                                return $item['DS'][3]['P50'] - $item['DS'][1]['P50']; 
                             }));
                         ?>,
                         borderColor: "green",
@@ -520,7 +520,7 @@
                         data: <?php
                             echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
-                                return $item['DS'][1]['P95'] - $item['DS'][3]['P5']; 
+                                return $item['DS'][3]['P95'] - $item['DS'][1]['P5']; 
                             }));
                         ?>,
                         borderColor: "blue",
