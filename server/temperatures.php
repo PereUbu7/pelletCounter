@@ -113,7 +113,8 @@
                     line: {
                         tension: 0
                     }
-                }
+                },
+                animation = false
             }
             });
 
@@ -172,7 +173,8 @@
                     line: {
                         tension: 0
                     }
-                }
+                },
+                animation = false
             }
             });
 
@@ -231,7 +233,8 @@
                     line: {
                         tension: 0
                     }
-                }
+                },
+                animation = false
             }
             });
 
@@ -326,7 +329,8 @@
                     line: {
                         tension: 0
                     }
-                }
+                },
+                animation = false
             }
             });
 
@@ -385,7 +389,8 @@
                     line: {
                         tension: 0
                     }
-                }
+                },
+                animation = false
             }
             });
 
@@ -480,7 +485,8 @@
                     line: {
                         tension: 0
                     }
-                }
+                },
+                animation = false
             }
             });
 
@@ -539,7 +545,8 @@
                     line: {
                         tension: 0
                     }
-                }
+                },
+                animation = false
             }
             });
 
