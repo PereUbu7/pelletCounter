@@ -114,7 +114,7 @@
                         tension: 0
                     }
                 },
-                animation = false
+                animation: false
             }
             });
 
@@ -174,7 +174,7 @@
                         tension: 0
                     }
                 },
-                animation = false
+                animation: false
             }
             });
 
@@ -234,7 +234,7 @@
                         tension: 0
                     }
                 },
-                animation = false
+                animation: false
             }
             });
 
@@ -330,7 +330,7 @@
                         tension: 0
                     }
                 },
-                animation = false
+                animation: false
             }
             });
 
@@ -390,7 +390,7 @@
                         tension: 0
                     }
                 },
-                animation = false
+                animation: false
             }
             });
 
@@ -486,7 +486,7 @@
                         tension: 0
                     }
                 },
-                animation = false
+                animation: false
             }
             });
 
@@ -546,7 +546,7 @@
                         tension: 0
                     }
                 },
-                animation = false
+                animation: false
             }
             });
 
