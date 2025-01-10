@@ -117,7 +117,22 @@
         		title: "kgs"
         	},
             axisX:{      
-                title: "# pulses"
+                title: "# pulses",
+                ticks: {
+                    "x": { suggestedMin: 0 },
+                    beginAtZero: true
+                },
+                options: {
+                    scales: {
+                        "x": {
+                            min: 0,
+                            suggestedMin: 0
+                        },
+                        "y": {
+                            max: 200
+                        }
+                    }
+                }
             },
         	data: [{
                 type: "scatter",
@@ -142,7 +157,22 @@
         		title: "kgs / # pulses"
         	},
             axisX:{      
-                title: "# pulses"
+                title: "# pulses",
+                ticks: {
+                    "x": { suggestedMin: 0 },
+                    beginAtZero: true
+                },
+                options: {
+                    scales: {
+                        "x": {
+                            min: 0,
+                            suggestedMin: 0
+                        },
+                        "y": {
+                            max: 200
+                        }
+                    }
+                }
             },
         	data: [{
                 type: "scatter",
