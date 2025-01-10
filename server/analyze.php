@@ -46,7 +46,8 @@
     }
 
     # Map number of pulses to manual records
-    $groundTruth = [];
+    $groundTruthValue = [];
+    $groundTruthSlope = [];
     for ($i = 0; $i < count($manualValues) - 1; ++$i) 
     {
         $currentDate = strtotime(json_decode($manualValues[$i]['value'])->date);
@@ -55,7 +56,7 @@
         $numberOfBags = json_decode($manualValues[$i + 1]['value'])->antalSäckar;
 
         # Kgs
-        $groundTruth[$i]['y'] = 16 * $numberOfBags;
+        $groundTruthValue[$i]['y'] = 16 * $numberOfBags;
 
         # Accumulate pulses given date interval of manual records
         $numberOfPulses = array_reduce(array_keys($autoValues), function ($carry, $k) use ($autoValues, $currentDate, $nextDate)
@@ -71,7 +72,10 @@
         0);
 
         # #pulses
-        $groundTruth[$i]['x'] = $numberOfPulses;
+        $groundTruthValue[$i]['x'] = $numberOfPulses;
+        
+        $groundTruthSlope[$i]['x'] = $numberOfPulses;
+        $groundTruthSlope[$i]['y'] = 16 * $numberOfBags / $numberOfPulses;
 
         if($debug)
         {
@@ -79,7 +83,7 @@
             echo "Current timestamp: " . $currentDate . "<br>";
             echo "Next timestamp: " . $nextDate . "<br>";
             echo "Number of bags: " . $numberOfBags . "<br>";
-            echo "Kgs: " . $groundTruth[$i]['y'] . "<br>";
+            echo "Kgs: " . $groundTruthValue[$i]['y'] . "<br>";
             echo "Number of pulses: " . $numberOfPulses . "<br><br>";
         }
     }
@@ -97,6 +101,7 @@
 
     <body>
         <div id="chartContainerCorr" style="height: 370px; width: 100%;"></div>
+        <div id="chartContainerCorrSlope" style="height: 370px; width: 100%;"></div>
         <div id="chartContainerTimeSeries" style="height: 370px; width: 100%;"></div>
 
         <script>
@@ -121,11 +126,36 @@
                 name: "requests",
                 legendText: "Normal",
         		markerSize: 5,
-        		dataPoints: <?php echo json_encode($groundTruth, JSON_NUMERIC_CHECK); ?>
+        		dataPoints: <?php echo json_encode($groundTruthValue, JSON_NUMERIC_CHECK); ?>
         	}]
         });
 
         chartCorr.render();
+
+        var chartCorrSlope = new CanvasJS.Chart("chartContainerCorrSlope", {
+        	animationEnabled: true,
+	        zoomEnabled: true,
+        	title:{
+        		text: "Correlation between pulses and mass"
+        	},
+        	axisY: {
+        		title: "kgs / # pulses"
+        	},
+            axisX:{      
+                title: "# pulses"
+            },
+        	data: [{
+                type: "scatter",
+		        markerType: "square",
+                showInLegend: true, 
+                name: "requests",
+                legendText: "Normal",
+        		markerSize: 5,
+        		dataPoints: <?php echo json_encode($groundTruthSlope, JSON_NUMERIC_CHECK); ?>
+        	}]
+        });
+
+        chartCorrSlope.render();
 
         var chartTime = new CanvasJS.Chart("chartContainerTimeSeries", {
         	animationEnabled: true,
