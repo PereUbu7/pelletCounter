@@ -7,11 +7,11 @@
 
     $autoRepo = new autoRepository($config['database']['path']);
 
-    $bucket = 'Y-m-d H:i';
+    $bucket = 'Y-m-d H';
     $debug = false;
     $merge = 1;
-    $from = (new DateTime('-1 week'))->format('Y-m-d H:i'); 
-    $to = date('Y-m-d H:i');
+    $from = (new DateTime('-1 week'))->format('Y-m-d H'); 
+    $to = date('Y-m-d H');
 
     if( $_SERVER["REQUEST_METHOD"] == "GET" )
     {
