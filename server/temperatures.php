@@ -563,8 +563,8 @@
                         data: <?php
                             echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
-                                return (($item['DS'][2]['P50'] - $item['DS'][4]['P50'])*2400 + /* dT * 2400 l/h */ 
-                                        ($item['DS'][3]['P50'] - $item['DS'][1]['P50'])*400) * /* dT * 400 l/h */
+                                return (($item['DS'][2]['P50'] - $item['DS'][4]['P50'])*2700 + /* dT * 2700 l/h */ 
+                                        ($item['DS'][3]['P50'] - $item['DS'][1]['P50'])*410) * /* dT * 410 l/h */
                                         4186 / 3600000; // Cp_water 4186 J/kg/K -> kW
                             }));
                     ?>,
