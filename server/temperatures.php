@@ -7,16 +7,16 @@
 
     $autoRepo = new autoRepository($config['database']['path']);
 
-    $bucket = 'Y-m-d';
+    $bucket = 'Y-m-d H:i';
     $debug = false;
     $merge = 1;
-    $from = null;
-    $to = null;
+    $from = date('Y-m-d H:i');
+    $to = new DateTime('-1 week')->format('Y-m-d H:i');
 
     if( $_SERVER["REQUEST_METHOD"] == "GET" )
     {
-        $from = isset($_GET["from"]) ? $_GET["from"] : null;
-        $to = isset($_GET["to"]) ? $_GET["to"] : null;
+        $from = isset($_GET["from"]) ? $_GET["from"] : $from;
+        $to = isset($_GET["to"]) ? $_GET["to"] : $to;
 
 	    if( !empty($_GET["bucket"]))
         {
@@ -24,11 +24,11 @@
         }
         if( !empty($_GET['merge']))
         {
-            $merge = $_GET['merge'];
+            $merge = $_GET['merge'];    
         }
         if( !empty($_GET['debug']))
         {
-            if($_GET['debug'] = true)
+            if($_GET['debug'] == true)
             {
                 $debug = true;
             }
@@ -56,6 +56,7 @@
         <canvas id="Temp35diff"  width="800" height="450"></canvas>
         <canvas id="Temp4"  width="800" height="450"></canvas>
         <canvas id="Temp42diff"  width="800" height="450"></canvas>
+        <canvas id="chartAnalysis"  width="800" height="450"></canvas>
 
         <script>
             new Chart(document.getElementById("chartAmbientTemp"), {
@@ -227,7 +228,7 @@
                 legend: { display: true },
                 title: {
                     display: true,
-                    text: 'Temperatur 1'
+                    text: 'Inkommande kallvattentemperatur'
                 },
                 elements: {
                     line: {
@@ -323,7 +324,7 @@
                 legend: { display: true },
                 title: {
                     display: true,
-                    text: 'Temperatur 3-5'
+                    text: 'Systemvattentemperatur'
                 },
                 elements: {
                     line: {
@@ -383,7 +384,7 @@
                 legend: { display: true },
                 title: {
                     display: true,
-                    text: 'Temperatur 3-5 differens'
+                    text: 'Systemvattentemperatur differens'
                 },
                 elements: {
                     line: {
@@ -479,7 +480,7 @@
                 legend: { display: true },
                 title: {
                     display: true,
-                    text: 'Temperatur 4-2'
+                    text: 'Tappvattentemperatur'
                 },
                 elements: {
                     line: {
@@ -539,7 +540,45 @@
                 legend: { display: true },
                 title: {
                     display: true,
-                    text: 'Temperatur 4-2 differens'
+                    text: 'Tappvattentemperatur differens'
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
+                animation: false
+            }
+            });
+
+            new Chart(document.getElementById("chartAnalysis"), {
+            type: 'line',
+            data: {
+                labels: <?php
+                    echo json_encode(array_keys($data));
+                    ?>,
+                datasets: [
+                    {
+                        label: "P5",
+                        data: <?php
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return (($item['DS'][2]['P50'] - $item['DS'][4]['P50'])*2400 + /* dT * 2400 l/h */ 
+                                        ($item['DS'][3]['P50'] - $item['DS'][1]['P50'])*400) * /* dT * 400 l/h */
+                                        4186 / 3600000; // Cp_water 4186 J/kg/K -> kW
+                            }));
+                    ?>,
+                        fill: '2',
+                        borderColor: "red",
+                        backgroundColor: "rgba(179,181,198,0.5)"
+                    }
+                ]
+            },
+            options: {
+                legend: { display: true },
+                title: {
+                    display: true,
+                    text: 'Effektiv förbrukning kW'
                 },
                 elements: {
                     line: {
