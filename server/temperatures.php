@@ -559,7 +559,7 @@
                     ?>,
                 datasets: [
                     {
-                        label: "P5",
+                        label: "P50",
                         data: <?php
                             echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
@@ -569,7 +569,7 @@
                             }));
                     ?>,
                         fill: '2',
-                        borderColor: "red",
+                        borderColor: "green",
                         backgroundColor: "rgba(179,181,198,0.5)"
                     }
                 ]
