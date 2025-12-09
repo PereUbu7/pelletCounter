@@ -41,12 +41,12 @@
 
     $manualValues = $manualRepo->getValues($autoValues);
 
-    $consumptionValues = json_encode(BucketReduction::Mean($autoValues, function ($item) 
+    $consumptionValues = BucketReduction::Mean($autoValues, function ($item) 
                             { 
                                 return (($item['DS'][2]['P50'] - $item['DS'][4]['P50'])*2700 + /* dT * 2700 l/h */ 
                                         ($item['DS'][3]['P50'] - $item['DS'][1]['P50'])*410) * /* dT * 410 l/h */
                                         4186 / 3600000; // Cp_water 4186 J/kg/K -> kW
-                            }));
+                            });
 
     # Map number of pulses to manual records
     for ($i = 0; $i < count($manualValues) - 1; ++$i) 
@@ -118,7 +118,7 @@
                     {
                         label: "P50",
                         data: <?php
-                            echo $consumptionValues;
+                            echo json_encode($consumptionValues);
                     ?>,
                         fill: '2',
                         borderColor: "green",
