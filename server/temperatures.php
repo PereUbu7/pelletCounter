@@ -10,8 +10,8 @@
     $bucket = 'Y-m-d H:i';
     $debug = false;
     $merge = 1;
-    $from = date('Y-m-d H:i');
-    $to = (new DateTime('-1 week'))->format('Y-m-d H:i');
+    $from = (new DateTime('-1 week'))->format('Y-m-d H:i'); 
+    $to = date('Y-m-d H:i');
 
     if( $_SERVER["REQUEST_METHOD"] == "GET" )
     {
