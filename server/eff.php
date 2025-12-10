@@ -66,7 +66,7 @@
         $eff = array_reduce(array_keys($autoValues), function ($carry, $k) use ($intervalLengthSeconds, $pelletEnergyUsed, $consumptionValues, $currentDate, $nextDate, $bucket)
         {
             // $pointDate = strtotime($k);
-            $pointDate = DateTime::createFromFormat($buket, $k)->getTimestamp();
+            $pointDate = DateTime::createFromFormat($bucket, $k)->getTimestamp();
             $pointDuration = $pointDate - $carry['lastTime'];
 
             echo "Key: " . $k . " Point date: " . $pointDate . " Last time: " . $carry['lastTime'] . " Duration: " . $pointDuration . "<br>";
