@@ -95,7 +95,7 @@
                 {
                     return true;
                 }
-            });
+            }); 
 
             if($currentIntervalStartDateIndex === null)
             {
@@ -108,19 +108,20 @@
             $currentIntervalLengthSeconds = $manualTransformed[$currentIntervalEndDateIndex]['timestamp'] - $manualTransformed[$currentIntervalStartDateIndex]['timestamp'];
         }
 
+        $pointDurationSeconds = ($i > 0) ? (DateTime::createFromFormat($bucket, array_keys($autoValues)[$i])->getTimestamp() -
+                                        DateTime::createFromFormat($bucket, array_keys($autoValues)[$i - 1])->getTimestamp()) : 0;
+
+        $currentNumberOfBags = $manualTransformed[$currentIntervalEndDateIndex]['bags'];
+        $currentPelletEnergyUsed = 4.9 * 16 * $currentNumberOfBags; // 4.9kWh/kg * 16 kg/bag = kWh
+
         if($debug)
         {
             echo "Point date: " . $pointDate . "<br>";
             echo "Interval start date: " . $manualTransformed[$currentIntervalStartDateIndex]['timestamp'] . "<br>";
             echo "Interval end date: " . $manualTransformed[$currentIntervalEndDateIndex]['timestamp'] . "<br>";
             echo "Interval length seconds: " . $currentIntervalLengthSeconds . "<br>";
+            echo "Point duration seconds: " . $pointDurationSeconds . "<br>";
         }
-
-        $pointDurationSeconds = ($i > 0) ? (DateTime::createFromFormat($bucket, array_keys($autoValues)[$i])->getTimestamp() -
-                                        DateTime::createFromFormat($bucket, array_keys($autoValues)[$i - 1])->getTimestamp()) : 0;
-
-        $currentNumberOfBags = $manualTransformed[$currentIntervalEndDateIndex]['bags'];
-        $currentPelletEnergyUsed = 4.9 * 16 * $currentNumberOfBags; // 4.9kWh/kg * 16 kg/bag = kWh
 
         $pointsPelletEnergyUsed = $currentPelletEnergyUsed * ($pointDurationSeconds / $currentIntervalLengthSeconds);
 
