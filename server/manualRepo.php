@@ -1,5 +1,5 @@
 <?php
-    require_once('../../FuelLogger/databaseCommunication.php');
+    require_once('../../logAnything/databaseCommunication.php');
 
     class manualRepository
     {

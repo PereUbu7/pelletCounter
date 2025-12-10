@@ -68,6 +68,8 @@
             $pointDate = strtotime($k);
             $pointDuration = $pointDate - $carry['lastTime'];
 
+            echo "Point date: " . $pointDate . " Last time: " . $carry['lastTime'] . " Duration: " . $pointDuration . "<br>";
+
             if($pointDate >= $currentDate &&
                 $pointDate < $nextDate)    
             {
