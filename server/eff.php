@@ -65,6 +65,8 @@
         ];
     }, $manualValues);
 
+    echo json_encode($manualTransformed);
+
     $currentIntervalStartDateIndex = null;
     $currentIntervalEndDateIndex = null;
  
