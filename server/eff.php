@@ -41,14 +41,12 @@
 
     $manualValues = $manualRepo->getValues($autoValues);
 
-    echo json_encode($autoValues);
-
-    $consumptionValues = array_map(function ($item) 
+    $consumptionValues = BucketReduction::Mean($autoValues, function ($item) 
                             { 
                                 return (($item['DS'][2]['P50'] - $item['DS'][4]['P50'])*2700 + /* dT * 2700 l/h */ 
                                         ($item['DS'][3]['P50'] - $item['DS'][1]['P50'])*410) * /* dT * 410 l/h */
                                         4186 / 3600000; // Cp_water 4186 J/kg/K -> kW
-                            }, $autoValues);
+                            });
 
     # Map number of pulses to manual records
     for ($i = 0; $i < count($manualValues) - 1; ++$i) 
@@ -65,7 +63,7 @@
         $groundTruthValue[$i]['y'] = 16 * $numberOfBags;
 
         # Accumulate pulses given date interval of manual records
-        $eff = array_reduce(array_keys($consumptionValues), function ($carry, $k) use ($intervalLengthSeconds, $pelletEnergyUsed, $consumptionValues, $currentDate, $nextDate)
+        $eff = array_reduce(array_keys($autoValues), function ($carry, $k) use ($intervalLengthSeconds, $pelletEnergyUsed, $consumptionValues, $currentDate, $nextDate)
         {
             $pointDate = strtotime($k);
             $pointDuration = $pointDate - $carry['lastTime'];
@@ -77,13 +75,14 @@
             {
                 if($carry['lastTime'] != 0)
                 {
-                    $carry['value'] += $consumptionValues[$k]*$pointDuration / $pelletEnergyUsed / 3600;
+                    $carry['value'] += $consumptionValues[$carry['index']]*$pointDuration / $pelletEnergyUsed / 3600;
                 }
                 $carry['lastTime'] = $pointDate;
+                $carry['index'] = $carry['index'] + 1;
             }
             return $carry;
         },
-        ['lastTime' => 0, 'value' => 0]);
+        ['lastTime' => 0, 'value' => 0, 'index' => 0]);
 
         if($debug)
         {
