@@ -108,6 +108,14 @@
             $currentIntervalEndDateIndex = $currentIntervalStartDateIndex + 1;
         }
 
+        if($debug)
+        {
+            echo "Point date: " . $pointDate . "<br>";
+            echo "Interval start date: " . $itemStartDate . "<br>";
+            echo "Interval end date: " . $itemEndDate . "<br>";
+            echo "Interval length seconds: " . $currentIntervalLengthSeconds . "<br>";
+        }
+
         $pointDurationSeconds = ($i > 0) ? (DateTime::createFromFormat($bucket, array_keys($autoValues)[$i])->getTimestamp() -
                                         DateTime::createFromFormat($bucket, array_keys($autoValues)[$i - 1])->getTimestamp()) : 0;
 
