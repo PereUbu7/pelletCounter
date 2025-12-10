@@ -37,14 +37,15 @@
         }
     }
 
-    function firstOrDefault(array $items, callable $predicate, $default = null) {
-    foreach ($items as $item) {
-        if ($predicate($item)) {
-            return $item;
+    function firstOrDefault(array $items, callable $predicate, $default = null) 
+    {
+        foreach ($items as $item) {
+            if ($predicate($item)) {
+                return $item;
+            }
         }
+        return $default;
     }
-    return $default;
-}
 
     $autoValues = $autoRepo->GetAllSensors($bucket, $from, $to);
 
@@ -67,6 +68,7 @@
 
     $currentIntervalStartDateIndex = null;
     $currentIntervalEndDateIndex = null;
+    $efficiencyValues = array_fill(0, count($consumptionValues), null);
  
     for($i = 0; $i < count($consumptionValues); ++$i)
     {
@@ -104,7 +106,8 @@
 
         $currentNumberOfBags = $manualTransformed[$currentIntervalEndDateIndex]['bags'];
         $currentPelletEnergyUsed = 123 * $currentNumberOfBags; // kWh
-
+        
+        $efficiencyValues[$i] = $consumptionValues[$i] / $currentPelletEnergyUsed;
         
         if($debug)
         {
@@ -114,11 +117,20 @@
             echo "Interval end timestamp: " . $currentIntervalEndDateIndex . "<br>";
             echo "Number of bags: " . $currentNumberOfBags . "<br>";
             echo "Current power consumption: " . $consumptionValues[$i] . "<br>";
-            echo "Current efficienty: " . ($consumptionValues[$i] / $currentPelletEnergyUsed) . "<br>";
+            echo "Current efficienty: " . $efficiencyValues[$i] . "<br>";
             echo "Pellet energy: " . $currentPelletEnergyUsed . "<br><br>";
         }
-        
-        $consumptionValues[$i] = $consumptionValues[$i] / $currentPelletEnergyUsed;
+    }
+
+    if($debug)
+    {
+        echo "<pre>";
+        echo json_encode($efficiencyValues);
+        echo "</pre>";
+
+        echo "<pre>";
+        echo json_encode(array_keys($autoValues));
+        echo "</pre>";
     }
 
     // # Map number of pulses to manual records
@@ -219,7 +231,7 @@
                     {
                         label: "P50",
                         data: <?php
-                            echo json_encode($consumptionValues);
+                            echo json_encode($efficiencyValues);
                     ?>,
                         fill: '2',
                         borderColor: "green",
