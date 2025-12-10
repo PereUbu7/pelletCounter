@@ -97,14 +97,14 @@
                 }
             }); 
 
-            if($currentIntervalStartDateIndex === null)
+            $currentIntervalEndDateIndex = $currentIntervalStartDateIndex + 1;
+
+            if($currentIntervalStartDateIndex === null ||
+            $currentIntervalEndDateIndex > count($manualTransformed) - 1)
             {
                 // No matching interval found
-
-                // $efficiencyValues[$i] = -1;
                 continue;
             }
-            $currentIntervalEndDateIndex = $currentIntervalStartDateIndex + 1;
             $currentIntervalLengthSeconds = $manualTransformed[$currentIntervalEndDateIndex]['timestamp'] - $manualTransformed[$currentIntervalStartDateIndex]['timestamp'];
         }
 
