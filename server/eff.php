@@ -65,8 +65,6 @@
         ];
     }, $manualValues);
 
-    echo json_encode($manualTransformed);
-
     $currentIntervalStartDateIndex = null;
     $currentIntervalEndDateIndex = null;
  
@@ -90,6 +88,12 @@
                     return true;
                 }
             });
+
+            if($currentIntervalStartDateIndex === null)
+            {
+                // No matching interval found
+                continue;
+            }
             $currentIntervalEndDateIndex = $currentIntervalStartDateIndex + 1;
         }
 
@@ -210,7 +214,7 @@
                     {
                         label: "P50",
                         data: <?php
-                            echo array_map(function ($v) { return $v['value']; }, $eff);
+                            echo json_encode($consumptionValues);
                     ?>,
                         fill: '2',
                         borderColor: "green",
