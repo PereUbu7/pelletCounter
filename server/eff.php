@@ -125,8 +125,8 @@
 
         $pointsPelletEnergyUsed = $currentPelletEnergyUsed * ($pointDurationSeconds / $currentIntervalLengthSeconds);
 
-                             /*    kW                  *   seconds             / 3600000 to get kWh  / pellet energy used in kWh */
-        $efficiencyValues[$i] = $consumptionValues[$i] * $pointDurationSeconds / 3600000 / $pointsPelletEnergyUsed;
+                             /*    kW                  *   seconds             / 3600 to get kWh  / pellet energy used in kWh */
+        $efficiencyValues[$i] = $consumptionValues[$i] * $pointDurationSeconds / 3600 / $pointsPelletEnergyUsed;
 
         if($debug)
         {
