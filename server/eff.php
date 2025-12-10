@@ -37,6 +37,15 @@
         }
     }
 
+    function firstOrDefault(array $items, callable $predicate, $default = null) {
+    foreach ($items as $item) {
+        if ($predicate($item)) {
+            return $item;
+        }
+    }
+    return $default;
+}
+
     $autoValues = $autoRepo->GetAllSensors($bucket, $from, $to);
 
     $manualValues = $manualRepo->getValues($autoValues);
@@ -48,53 +57,97 @@
                                         4186 / 3600000; // Cp_water 4186 J/kg/K -> kW
                             });
 
-    # Map number of pulses to manual records
-    for ($i = 0; $i < count($manualValues) - 1; ++$i) 
+    $manualTransformed = array_map(function ($item)
     {
-        $currentDate = strtotime(json_decode($manualValues[$i]['value'])->date);
-        $nextDate = strtotime(json_decode($manualValues[$i + 1]['value'])->date);
-        $intervalLengthSeconds = $nextDate - $currentDate;
+        return [
+            'timestamp' => strtotime(json_decode($item['value'])->date),
+            'bags' => json_decode($item['value'])->antalSäckar
+        ];
+    }, $manualValues);
 
-        $numberOfBags = json_decode($manualValues[$i + 1]['value'])->antalSäckar;
+    $currentIntervalStartDateIndex = null;
+    $currentIntervalEndDateIndex = null;
+ 
+    for($i = 0; $i < count($consumptionValues); ++$i)
+    {
+        $pointDate = DateTime::createFromFormat($bucket, array_keys($autoValues)[$i])->getTimestamp();
 
-        $pelletEnergyUsed = 123 * $numberOfBags; // kWh
-
-        # Kgs
-        $groundTruthValue[$i]['y'] = 16 * $numberOfBags;
-
-        # Accumulate pulses given date interval of manual records
-        $eff = array_reduce(array_keys($autoValues), function ($carry, $k) use ($intervalLengthSeconds, $pelletEnergyUsed, $consumptionValues, $currentDate, $nextDate, $bucket)
+        /* Find interval */
+        if($currentIntervalStartDate == null ||
+            $pointDate >= $manualTransformed[$currentIntervalEndDateIndex]['timestamp'] ||
+            $pointDate < $manualTransformed[$currentIntervalStartDateIndex]['timestamp'])
         {
-            $pointDate = DateTime::createFromFormat($bucket, $k)->getTimestamp();
-            $pointDuration = $pointDate - $carry['lastTime'];
-
-            echo "Key: " . $k . " Point date: " . $pointDate . " Last time: " . $carry['lastTime'] . " Duration: " . $pointDuration . "<br>";
-
-            if($pointDate >= $currentDate &&
-                $pointDate < $nextDate)    
+            $currentIntervalStartDateIndex = firstOrDefault(array_keys($manualTransformed), function($item) use ($pointDate, $manualTransformed)
             {
-                if($carry['lastTime'] != 0)
-                {
-                    $carry['value'] += $consumptionValues[$carry['index']]*$pointDuration / $pelletEnergyUsed / 3600;
-                }
-                $carry['lastTime'] = $pointDate;
-                $carry['index'] = $carry['index'] + 1;
-            }
-            return $carry;
-        },
-        ['lastTime' => 0, 'value' => 0, 'index' => 0]);
+                $itemStartDate = $manualTransformed[$item]['timestamp'];
+                $itemEndDate = $manualTransformed[$item + 1]['timestamp'];
 
+                if($pointDate >= $itemStartDate &&
+                    $pointDate < $itemEndDate)    
+                {
+                    return true;
+                }
+            });
+            $currentIntervalEndDateIndex = $currentIntervalStartDateIndex + 1;
+        }
+
+        $currentNumberOfBags = $manualTransformed[$currentIntervalEndDateIndex]['bags'];
+        $currentPelletEnergyUsed = 123 * $currentNumberOfBags; // kWh
+
+        
         if($debug)
         {
             echo "Checking manual:<br>";
-            echo "Current timestamp: " . $currentDate . "<br>";
-            echo "Next timestamp: " . $nextDate . "<br>";
-            echo "Number of bags: " . $numberOfBags . "<br>";
-            echo "Whole eff: " . json_encode($eff) . "<br>";
-            echo "Eff: " . $eff[$i]['value'] . "<br>";
-            echo "Pellet energy: " . $pelletEnergyUsed . "<br><br>";
+            echo "Current timestamp: " . $pointDate . "<br>";
+            echo "Interval start timestamp: " . $currentIntervalStartDateIndex . "<br>";
+            echo "Interval end timestamp: " . $currentIntervalEndDateIndex . "<br>";
+            echo "Number of bags: " . $currentNumberOfBags . "<br>";
+            echo "Current power consumption: " . $consumptionValues[$i] . "<br>";
+            echo "Current efficienty: " . ($consumptionValues[$i] / $currentPelletEnergyUsed) . "<br>";
+            echo "Pellet energy: " . $currentPelletEnergyUsed . "<br><br>";
         }
+        
+        $consumptionValues[$i] = $consumptionValues[$i] / $currentPelletEnergyUsed;
     }
+
+    // # Map number of pulses to manual records
+    // for ($i = 0; $i < count($manualValues) - 1; ++$i) 
+    // {
+    //     $currentDate = strtotime(json_decode($manualValues[$i]['value'])->date);
+    //     $nextDate = strtotime(json_decode($manualValues[$i + 1]['value'])->date);
+    //     $intervalLengthSeconds = $nextDate - $currentDate;
+
+    //     $numberOfBags = json_decode($manualValues[$i + 1]['value'])->antalSäckar;
+
+    //     $pelletEnergyUsed = 123 * $numberOfBags; // kWh
+
+    //     # Kgs
+    //     $groundTruthValue[$i]['y'] = 16 * $numberOfBags;
+
+    //     # Accumulate pulses given date interval of manual records
+    //     $eff = array_reduce(array_keys($autoValues), function ($carry, $k) use ($intervalLengthSeconds, $pelletEnergyUsed, $consumptionValues, $currentDate, $nextDate, $bucket)
+    //     {
+    //         $pointDate = DateTime::createFromFormat($bucket, $k)->getTimestamp();
+    //         $pointDuration = $pointDate - $carry['lastTime'];
+
+    //         echo "Key: " . $k . " Point date: " . $pointDate . " Last time: " . $carry['lastTime'] . " Duration: " . $pointDuration . "<br>";
+
+    //         if($pointDate >= $currentDate &&
+    //             $pointDate < $nextDate)    
+    //         {
+    //             if($carry['lastTime'] != 0)
+    //             {
+    //                 $carry['value'] += $consumptionValues[$carry['index']]*$pointDuration / $pelletEnergyUsed / 3600;
+    //             }
+    //             $carry['lastTime'] = $pointDate;
+    //             $carry['index'] = $carry['index'] + 1;
+    //         }
+    //         return $carry;
+    //     },
+    //     ['lastTime' => 0, 'value' => 0, 'index' => 0]);
+
+
+    // }
 ?>
 
 <!DOCTYPE html>
