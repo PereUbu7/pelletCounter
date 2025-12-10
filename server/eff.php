@@ -65,7 +65,6 @@
         # Accumulate pulses given date interval of manual records
         $eff = array_reduce(array_keys($autoValues), function ($carry, $k) use ($intervalLengthSeconds, $pelletEnergyUsed, $consumptionValues, $currentDate, $nextDate, $bucket)
         {
-            // $pointDate = strtotime($k);
             $pointDate = DateTime::createFromFormat($bucket, $k)->getTimestamp();
             $pointDuration = $pointDate - $carry['lastTime'];
 
@@ -91,6 +90,7 @@
             echo "Current timestamp: " . $currentDate . "<br>";
             echo "Next timestamp: " . $nextDate . "<br>";
             echo "Number of bags: " . $numberOfBags . "<br>";
+            echo "Whole eff: " . json_encode($eff) . "<br>";
             echo "Eff: " . $eff[$i]['value'] . "<br>";
             echo "Pellet energy: " . $pelletEnergyUsed . "<br><br>";
         }
