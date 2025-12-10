@@ -76,8 +76,8 @@
                 if($carry['lastTime'] != 0)
                 {
                     $carry['value'] += $consumptionValues[$k]*$pointDuration / $pelletEnergyUsed / 3600;
-                    $carry['lastTime'] = $pointDate;
                 }
+                $carry['lastTime'] = $pointDate;
             }
             return $carry;
         },
