@@ -89,7 +89,7 @@
 
                 $itemStartDate = $manualTransformed[$item - 1]['timestamp'];
                 $itemEndDate = $manualTransformed[$item]['timestamp'];
-                $currentIntervalLengthSeconds = $itemEndDate - $itemStartDate;
+                $currentIntervalLengthSeconds = $manualTransformed[$item]['timestamp'] - $manualTransformed[$item - 1]['timestamp'];
 
                 if($pointDate >= $itemStartDate &&
                     $pointDate < $itemEndDate)
@@ -111,8 +111,8 @@
         if($debug)
         {
             echo "Point date: " . $pointDate . "<br>";
-            echo "Interval start date: " . $itemStartDate . "<br>";
-            echo "Interval end date: " . $itemEndDate . "<br>";
+            echo "Interval start date index: " . $currentIntervalStartDateIndex . "<br>";
+            echo "Interval end date index: " . $currentIntervalEndDateIndex . "<br>";
             echo "Interval length seconds: " . $currentIntervalLengthSeconds . "<br>";
         }
 
