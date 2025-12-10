@@ -12,7 +12,7 @@
     $bucket = 'Y-m-d H';
     $debug = false;
     $merge = 1;
-    $from = (new DateTime('-1 week'))->format('Y-m-d H'); 
+    $from = (new DateTime('-1 week'))->format('Y-m-d H');
     $to = date('Y-m-d H');
 
     if( $_SERVER["REQUEST_METHOD"] == "GET" )
@@ -26,7 +26,7 @@
         }
         if( !empty($_GET['merge']))
         {
-            $merge = $_GET['merge'];    
+            $merge = $_GET['merge'];
         }
         if( !empty($_GET['debug']))
         {
@@ -37,7 +37,7 @@
         }
     }
 
-    function firstOrDefault(array $items, callable $predicate, $default = null) 
+    function firstOrDefault(array $items, callable $predicate, $default = null)
     {
         foreach ($items as $item) {
             if ($predicate($item)) {
@@ -51,9 +51,9 @@
 
     $manualValues = $manualRepo->getValues($autoValues);
 
-    $consumptionValues = BucketReduction::Mean($autoValues, function ($item) 
-                            { 
-                                return (($item['DS'][2]['P50'] - $item['DS'][4]['P50'])*2700 + /* dT * 2700 l/h */ 
+    $consumptionValues = BucketReduction::Mean($autoValues, function ($item)
+                            {
+                                return (($item['DS'][2]['P50'] - $item['DS'][4]['P50'])*2700 + /* dT * 2700 l/h */
                                         ($item['DS'][3]['P50'] - $item['DS'][1]['P50'])*410) * /* dT * 410 l/h */
                                         4186 / 3600000; // Cp_water 4186 J/kg/K -> kW
                             });
@@ -69,7 +69,7 @@
     $currentIntervalStartDateIndex = null;
     $currentIntervalEndDateIndex = null;
     $efficiencyValues = array_fill(0, count($consumptionValues), null);
- 
+
     for($i = 0; $i < count($consumptionValues); ++$i)
     {
         $pointDate = DateTime::createFromFormat($bucket, array_keys($autoValues)[$i])->getTimestamp();
@@ -90,7 +90,7 @@
                 $itemEndDate = $manualTransformed[$item + 1]['timestamp'];
 
                 if($pointDate >= $itemStartDate &&
-                    $pointDate < $itemEndDate)    
+                    $pointDate < $itemEndDate)
                 {
                     return true;
                 }
@@ -100,7 +100,7 @@
             {
                 // No matching interval found
 
-                $efficiencyValues[$i] = -1;
+                // $efficiencyValues[$i] = -1;
                 continue;
             }
             $currentIntervalEndDateIndex = $currentIntervalStartDateIndex + 1;
@@ -108,9 +108,9 @@
 
         $currentNumberOfBags = $manualTransformed[$currentIntervalEndDateIndex]['bags'];
         $currentPelletEnergyUsed = 123 * $currentNumberOfBags; // kWh
-        
+
         $efficiencyValues[$i] = $consumptionValues[$i] / $currentPelletEnergyUsed;
-        
+
         if($debug)
         {
             echo "Checking manual:<br>";
@@ -136,7 +136,7 @@
     }
 
     // # Map number of pulses to manual records
-    // for ($i = 0; $i < count($manualValues) - 1; ++$i) 
+    // for ($i = 0; $i < count($manualValues) - 1; ++$i)
     // {
     //     $currentDate = strtotime(json_decode($manualValues[$i]['value'])->date);
     //     $nextDate = strtotime(json_decode($manualValues[$i + 1]['value'])->date);
@@ -158,7 +158,7 @@
     //         echo "Key: " . $k . " Point date: " . $pointDate . " Last time: " . $carry['lastTime'] . " Duration: " . $pointDuration . "<br>";
 
     //         if($pointDate >= $currentDate &&
-    //             $pointDate < $nextDate)    
+    //             $pointDate < $nextDate)
     //         {
     //             if($carry['lastTime'] != 0)
     //             {
