@@ -70,7 +70,7 @@
     $currentIntervalEndDateIndex = null;
     $efficiencyValues = array_fill(0, count($consumptionValues), null);
 
-    for($i = 0; $i < count($consumptionValues); ++$i)
+    for($i = 1; $i < count($consumptionValues); ++$i)
     {
         $pointDate = DateTime::createFromFormat($bucket, array_keys($autoValues)[$i])->getTimestamp();
 
@@ -81,13 +81,13 @@
         {
             $currentIntervalStartDateIndex = firstOrDefault(array_keys($manualTransformed), function($item) use ($pointDate, $manualTransformed)
             {
-                if($item + 1 >= count($manualTransformed))
+                if($item == 0)
                 {
                     return false;
                 }
 
-                $itemStartDate = $manualTransformed[$item]['timestamp'];
-                $itemEndDate = $manualTransformed[$item + 1]['timestamp'];
+                $itemStartDate = $manualTransformed[$item - 1]['timestamp'];
+                $itemEndDate = $manualTransformed[$item]['timestamp'];
 
                 if($pointDate >= $itemStartDate &&
                     $pointDate < $itemEndDate)
@@ -107,9 +107,13 @@
         }
 
         $currentNumberOfBags = $manualTransformed[$currentIntervalEndDateIndex]['bags'];
-        $currentPelletEnergyUsed = 123 * $currentNumberOfBags; // kWh
+        $currentPelletEnergyUsed = 4.9 * 16 * $currentNumberOfBags; // 4.9kWh/kg * 16 kg/bag = kWh
 
-        $efficiencyValues[$i] = $consumptionValues[$i] / $currentPelletEnergyUsed;
+        $pointDurationSeconds = ($i > 0) ? (DateTime::createFromFormat($bucket, array_keys($autoValues)[$i])->getTimestamp() -
+                                        DateTime::createFromFormat($bucket, array_keys($autoValues)[$i - 1])->getTimestamp()) : 0;
+
+                             /*    kW                  *   seconds             / 3600000 to get kWh  / pellet energy used in kWh */
+        $efficiencyValues[$i] = $consumptionValues[$i] * $pointDurationSeconds / 3600000 / $currentPelletEnergyUsed;
 
         if($debug)
         {
