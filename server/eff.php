@@ -104,8 +104,8 @@
                 // $efficiencyValues[$i] = -1;
                 continue;
             }
-            $currentIntervalLengthSeconds = $manualTransformed[$currentIntervalEndDateIndex]['timestamp'] - $manualTransformed[$currentIntervalStartDateIndex]['timestamp'];
             $currentIntervalEndDateIndex = $currentIntervalStartDateIndex + 1;
+            $currentIntervalLengthSeconds = $manualTransformed[$currentIntervalEndDateIndex]['timestamp'] - $manualTransformed[$currentIntervalStartDateIndex]['timestamp'];
         }
 
         if($debug)
