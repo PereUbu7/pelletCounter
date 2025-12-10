@@ -63,9 +63,10 @@
         $groundTruthValue[$i]['y'] = 16 * $numberOfBags;
 
         # Accumulate pulses given date interval of manual records
-        $eff = array_reduce(array_keys($autoValues), function ($carry, $k) use ($intervalLengthSeconds, $pelletEnergyUsed, $consumptionValues, $currentDate, $nextDate)
+        $eff = array_reduce(array_keys($autoValues), function ($carry, $k) use ($intervalLengthSeconds, $pelletEnergyUsed, $consumptionValues, $currentDate, $nextDate, $bucket)
         {
-            $pointDate = strtotime($k);
+            // $pointDate = strtotime($k);
+            $pointDate = DateTime::createFromFormat($buket, $k)->getTimestamp();
             $pointDuration = $pointDate - $carry['lastTime'];
 
             echo "Key: " . $k . " Point date: " . $pointDate . " Last time: " . $carry['lastTime'] . " Duration: " . $pointDuration . "<br>";
