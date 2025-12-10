@@ -99,6 +99,8 @@
             if($currentIntervalStartDateIndex === null)
             {
                 // No matching interval found
+
+                $efficiencyValues[$i] = -1;
                 continue;
             }
             $currentIntervalEndDateIndex = $currentIntervalStartDateIndex + 1;
