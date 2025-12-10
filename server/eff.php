@@ -41,6 +41,8 @@
 
     $manualValues = $manualRepo->getValues($autoValues);
 
+    echo json_encode($autoValues);
+
     $consumptionValues = array_map(function ($item) 
                             { 
                                 return (($item['DS'][2]['P50'] - $item['DS'][4]['P50'])*2700 + /* dT * 2700 l/h */ 
