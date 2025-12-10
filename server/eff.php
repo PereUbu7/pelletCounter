@@ -73,12 +73,17 @@
         $pointDate = DateTime::createFromFormat($bucket, array_keys($autoValues)[$i])->getTimestamp();
 
         /* Find interval */
-        if($currentIntervalStartDate == null ||
+        if($currentIntervalStartDateIndex == null ||
             $pointDate >= $manualTransformed[$currentIntervalEndDateIndex]['timestamp'] ||
             $pointDate < $manualTransformed[$currentIntervalStartDateIndex]['timestamp'])
         {
             $currentIntervalStartDateIndex = firstOrDefault(array_keys($manualTransformed), function($item) use ($pointDate, $manualTransformed)
             {
+                if($item + 1 >= count($manualTransformed))
+                {
+                    return false;
+                }
+
                 $itemStartDate = $manualTransformed[$item]['timestamp'];
                 $itemEndDate = $manualTransformed[$item + 1]['timestamp'];
 
