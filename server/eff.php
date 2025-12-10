@@ -68,6 +68,7 @@
 
     $currentIntervalStartDateIndex = null;
     $currentIntervalEndDateIndex = null;
+    $currentIntervalLengthSeconds = null;
     $efficiencyValues = array_fill(0, count($consumptionValues), null);
 
     for($i = 1; $i < count($consumptionValues); ++$i)
@@ -88,6 +89,7 @@
 
                 $itemStartDate = $manualTransformed[$item - 1]['timestamp'];
                 $itemEndDate = $manualTransformed[$item]['timestamp'];
+                $currentIntervalLengthSeconds = $itemEndDate - $itemStartDate;
 
                 if($pointDate >= $itemStartDate &&
                     $pointDate < $itemEndDate)
@@ -106,14 +108,16 @@
             $currentIntervalEndDateIndex = $currentIntervalStartDateIndex + 1;
         }
 
-        $currentNumberOfBags = $manualTransformed[$currentIntervalEndDateIndex]['bags'];
-        $currentPelletEnergyUsed = 4.9 * 16 * $currentNumberOfBags; // 4.9kWh/kg * 16 kg/bag = kWh
-
         $pointDurationSeconds = ($i > 0) ? (DateTime::createFromFormat($bucket, array_keys($autoValues)[$i])->getTimestamp() -
                                         DateTime::createFromFormat($bucket, array_keys($autoValues)[$i - 1])->getTimestamp()) : 0;
 
+        $currentNumberOfBags = $manualTransformed[$currentIntervalEndDateIndex]['bags'];
+        $currentPelletEnergyUsed = 4.9 * 16 * $currentNumberOfBags; // 4.9kWh/kg * 16 kg/bag = kWh
+
+        $pointsPelletEnergyUsed = $currentPelletEnergyUsed * ($pointDurationSeconds / $currentIntervalLengthSeconds);
+
                              /*    kW                  *   seconds             / 3600000 to get kWh  / pellet energy used in kWh */
-        $efficiencyValues[$i] = $consumptionValues[$i] * $pointDurationSeconds / 3600000 / $currentPelletEnergyUsed;
+        $efficiencyValues[$i] = $consumptionValues[$i] * $pointDurationSeconds / 3600000 / $pointsPelletEnergyUsed;
 
         if($debug)
         {
@@ -124,7 +128,9 @@
             echo "Number of bags: " . $currentNumberOfBags . "<br>";
             echo "Current power consumption: " . $consumptionValues[$i] . "<br>";
             echo "Current efficienty: " . $efficiencyValues[$i] . "<br>";
-            echo "Pellet energy: " . $currentPelletEnergyUsed . "<br><br>";
+            echo "Pellet energy: " . $currentPelletEnergyUsed . "<br>";
+            echo "Pellet energy for point: " . $pointsPelletEnergyUsed . "<br>";
+            echo "<br>";
         }
     }
 
