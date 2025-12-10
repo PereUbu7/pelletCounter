@@ -190,7 +190,7 @@
         <canvas id="chartEfficiency"  width="800" height="450"></canvas>
 
         <script>
-            new Chart(document.getElementById("chartAnalysis"), {
+            new Chart(document.getElementById("chartConsumption"), {
             type: 'line',
             data: {
                 labels: <?php
