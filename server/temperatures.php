@@ -56,6 +56,7 @@
         <canvas id="Temp35diff"  width="800" height="450"></canvas>
         <canvas id="Temp4"  width="800" height="450"></canvas>
         <canvas id="Temp42diff"  width="800" height="450"></canvas>
+        <canvas id="tapWaterUse"  width="800" height="450"></canvas>
         <canvas id="chartAnalysis"  width="800" height="450"></canvas>
 
         <script>
@@ -550,6 +551,67 @@
                 animation: false
             }
             });
+
+            new Chart(document.getElementById("tapWaterUse"), {
+            type: 'line',
+            data: {
+                labels: <?php
+                    echo json_encode(array_keys($data));
+                    ?>,
+                datasets: [
+                    {
+                        label: "P5",
+                        data: <?php
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][0]['P5'] - $item['ATP5']; // Inkommande kallvatten - Lufttemperatur
+                            }));
+                    ?>,
+                        fill: '2',
+                        borderColor: "red",
+                        backgroundColor: "rgba(179,181,198,0.5)"
+                    },
+                    {
+                        label: "P50",
+                        data: <?php
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][0]['P50'] - $item['ATP50']; // Inkommande kallvatten - Lufttemperatur
+                            }));
+                    ?>,
+                        fill: '2',
+                        borderColor: "green",
+                        backgroundColor: "rgba(179,181,198,0.5)"
+                    },
+                    {
+                        label: "P95",
+                        data: <?php
+                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            { 
+                                return $item['DS'][0]['P95'] - $item['ATP95']; // Inkommande kallvatten - Lufttemperatur
+                            }));
+                    ?>,
+                        fill: '2',
+                        borderColor: "blue",
+                        backgroundColor: "rgba(179,181,198,0.5)"
+                    }
+                ]
+            },
+            options: {
+                legend: { display: true },
+                title: {
+                    display: true,
+                    text: 'Användning tappvarmvatten'
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
+                animation: false
+            }
+            });
+
 
             new Chart(document.getElementById("chartAnalysis"), {
             type: 'line',
