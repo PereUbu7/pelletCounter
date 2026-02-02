@@ -564,7 +564,7 @@
                         data: <?php
                             echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
-                                return $item['DS'][0]['P5'] - $item['ATP5']; // Inkommande kallvatten - Lufttemperatur
+                                return abs($item['DS'][0]['P95'] - $item['ATP5']); // Inkommande kallvatten - Lufttemperatur
                             }));
                     ?>,
                         fill: '2',
@@ -576,7 +576,7 @@
                         data: <?php
                             echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
-                                return $item['DS'][0]['P50'] - $item['ATP50']; // Inkommande kallvatten - Lufttemperatur
+                                return abs($item['DS'][0]['P50'] - $item['ATP50']); // Inkommande kallvatten - Lufttemperatur
                             }));
                     ?>,
                         fill: '2',
@@ -588,7 +588,7 @@
                         data: <?php
                             echo json_encode(BucketReduction::Mean($data, function ($item) 
                             { 
-                                return $item['DS'][0]['P95'] - $item['ATP95']; // Inkommande kallvatten - Lufttemperatur
+                                return abs($item['DS'][0]['P5'] - $item['ATP95']); // Inkommande kallvatten - Lufttemperatur
                             }));
                     ?>,
                         fill: '2',
