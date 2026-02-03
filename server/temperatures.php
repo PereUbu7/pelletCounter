@@ -560,39 +560,15 @@
                     ?>,
                 datasets: [
                     {
-                        label: "P5",
-                        data: <?php
-                            echo json_encode(BucketReduction::Mean($data, function ($item) 
-                            { 
-                                return abs($item['DS'][0]['P95'] - $item['ATP5']); // Inkommande kallvatten - Lufttemperatur
-                            }));
-                    ?>,
-                        fill: '2',
-                        borderColor: "red",
-                        backgroundColor: "rgba(179,181,198,0.5)"
-                    },
-                    {
                         label: "P50",
                         data: <?php
-                            echo json_encode(BucketReduction::Mean($data, function ($item) 
+                            echo json_encode(BucketReduction::MeanSlope($data, function ($item) 
                             { 
                                 return abs($item['DS'][0]['P50'] - $item['ATP50']); // Inkommande kallvatten - Lufttemperatur
                             }));
                     ?>,
                         fill: '2',
                         borderColor: "green",
-                        backgroundColor: "rgba(179,181,198,0.5)"
-                    },
-                    {
-                        label: "P95",
-                        data: <?php
-                            echo json_encode(BucketReduction::Mean($data, function ($item) 
-                            { 
-                                return abs($item['DS'][0]['P5'] - $item['ATP95']); // Inkommande kallvatten - Lufttemperatur
-                            }));
-                    ?>,
-                        fill: '2',
-                        borderColor: "blue",
                         backgroundColor: "rgba(179,181,198,0.5)"
                     }
                 ]
