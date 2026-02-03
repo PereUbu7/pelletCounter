@@ -11,7 +11,7 @@
     $debug = false;
     $merge = 1;
     $from = (new DateTime('-1 week'))->format('Y-m-d H'); 
-    $to = date('Y-m-d H');
+    $to = date('Y-m-d H:i');
 
     if( $_SERVER["REQUEST_METHOD"] == "GET" )
     {
