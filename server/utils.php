@@ -29,6 +29,8 @@ class ArrayReduction
             $denominator += ($i - $x_mean) ** 2;
         }
 
+        echo "Numerator: $numerator, Denominator: $denominator\n"; // Debug output
+
         return ($denominator != 0) ? ($numerator / $denominator) : 0;
     }
 }
